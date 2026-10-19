@@ -30,7 +30,7 @@ module.exports = {
   
       // validacion Regex
       try {
-        isValid = re.test(phone);
+        isValid = re.test(url);
       } catch (e) {
         console.log(e);
       } finally {
@@ -48,7 +48,7 @@ module.exports = {
   
       // validacion Regex
       try {
-        isValid = re.test(phone);
+        isValid = re.test(url);
       } catch (e) {
         console.log(e);
       } finally {

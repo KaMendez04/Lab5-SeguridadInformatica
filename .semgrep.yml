@@ -1,0 +1,35 @@
+rules:
+  - id: jquery-insecure-html-xss
+    patterns:
+      - pattern-regex: |
+          \.html\s*\(\s*(?!["'`])[^)]+\)
+    paths:
+      include:
+        - "*.html"
+        - "*.js"
+    message: "Posible Cross-Site Scripting (XSS) detectado: inserción de contenido no confiable en el DOM mediante jQuery .html(). Use .text() o sanee el contenido con una librería de escape HTML antes de insertarlo."
+    languages:
+      - generic
+    severity: ERROR
+    metadata:
+      cwe: "CWE-79: Cross-site Scripting"
+      owasp: "A03:2021 - Injection"
+      category: security
+      confidence: HIGH
+
+  - id: unescaped-script-or-html-injection
+    patterns:
+      - pattern-regex: |
+          (?i)(<img\s+src=["']\s*\+\s*|<iframe\s+[^>]*src=["']\s*\+\s*)
+    paths:
+      include:
+        - "*.js"
+        - "*.html"
+    message: "Inyección de HTML / Atributos: concatenación dinámica en etiquetas HTML (img / iframe) sin sanitización estricta de atributos."
+    languages:
+      - generic
+    severity: WARNING
+    metadata:
+      cwe: "CWE-79: Cross-site Scripting"
+      owasp: "A03:2021 - Injection"
+      category: security
