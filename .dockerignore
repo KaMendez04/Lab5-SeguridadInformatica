@@ -1,0 +1,24 @@
+# Solo se copia a la imagen lo que la app necesita en runtime
+node_modules
+npm-debug.log
+.git
+.github
+.husky
+.semgrep.yml
+.env
+.env.*
+*.pem
+*.key
+coverage
+docs
+test
+tests
+scripts
+playwright-report
+test-results
+Dockerfile*
+.dockerignore
+eslint.config.js
+AGENTS.md
+CLAUDE.md
+README.md
