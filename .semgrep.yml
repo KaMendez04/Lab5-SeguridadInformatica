@@ -1,7 +1,7 @@
 rules:
   - id: jquery-insecure-html-xss
     patterns:
-      - pattern-regex: |
+      - pattern-regex: |-
           \.html\s*\(\s*(?!["'`])[^)]+\)
     paths:
       include:
@@ -19,7 +19,7 @@ rules:
 
   - id: unescaped-script-or-html-injection
     patterns:
-      - pattern-regex: |
+      - pattern-regex: |-
           (?i)(<img\s+src=["']\s*\+\s*|<iframe\s+[^>]*src=["']\s*\+\s*)
     paths:
       include:

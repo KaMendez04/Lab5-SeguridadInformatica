@@ -97,7 +97,9 @@ describe('unalib', function(){
       // Cuando
       var resultado = JSON.parse(val.validateMessage(msg));
       // Entonces
-      assert.ok(resultado.mensaje.indexOf('<img src="http://image.com/image.png"') === 0);
+      assert.strictEqual(resultado.tipo, 'imagen');
+      assert.strictEqual(resultado.url, 'http://image.com/image.png');
+      assert.ok(resultado.mensaje.indexOf('<img src="') === 0);
     });
 
     it('Dado un mensaje con enlace de YouTube, cuando se procesa, entonces se convierte en iframe embebido', function(){
@@ -106,7 +108,9 @@ describe('unalib', function(){
       // Cuando
       var resultado = JSON.parse(val.validateMessage(msg));
       // Entonces
-      assert.ok(resultado.mensaje.indexOf('https://www.youtube.com/embed/qYwlqx-JLok') !== -1);
+      assert.strictEqual(resultado.tipo, 'video');
+      assert.strictEqual(resultado.videoId, 'qYwlqx-JLok');
+      assert.ok(resultado.mensaje.indexOf('https://www.youtube-nocookie.com/embed/qYwlqx-JLok') !== -1);
     });
 
     it('Dada una entrada vacia, cuando se procesa, entonces devuelve un mensaje vacio', function(){
@@ -116,6 +120,107 @@ describe('unalib', function(){
       var resultado = JSON.parse(val.validateMessage(msg));
       // Entonces
       assert.strictEqual(resultado.mensaje, '');
+    });
+
+    it('Dado un mensaje que no es JSON valido, cuando se procesa, entonces se descarta y devuelve un mensaje vacio', function(){
+      // Dado
+      var msg = '<script>alert(1)</script>';
+      // Cuando
+      var resultado = JSON.parse(val.validateMessage(msg));
+      // Entonces
+      assert.strictEqual(resultado.mensaje, '');
+      assert.strictEqual(resultado.tipo, 'texto');
+    });
+
+    it('Dado un mensaje con solo espacios, cuando se procesa, entonces el mensaje queda vacio', function(){
+      // Dado
+      var msg = JSON.stringify({ nombre: 'Ana', color: '#000', mensaje: '    ' });
+      // Cuando
+      var resultado = JSON.parse(val.validateMessage(msg));
+      // Entonces
+      assert.strictEqual(resultado.mensaje, '');
+    });
+
+  });
+
+  describe('Funcionalidad: mitigacion de XSS (OWASP A03)', function(){
+
+    it('Dado un mensaje con un payload <script>alert("XSS")</script>, cuando se valida, entonces los tags quedan escapados y no hay HTML ejecutable', function(){
+      // Dado
+      var msg = JSON.stringify({ nombre: 'Ana', color: '#000', mensaje: '<script>alert("XSS")</script>' });
+      // Cuando
+      var resultado = JSON.parse(val.validateMessage(msg));
+      // Entonces
+      assert.strictEqual(resultado.tipo, 'texto');
+      assert.ok(resultado.mensaje.indexOf('<') === -1);
+      assert.strictEqual(resultado.mensaje, '&lt;script&gt;alert(&quot;XSS&quot;)&lt;&#x2F;script&gt;');
+    });
+
+    it('Dado un payload <img src=x onerror=alert(1)>, cuando se valida, entonces no se genera ninguna etiqueta img', function(){
+      // Dado
+      var msg = JSON.stringify({ nombre: 'Ana', color: '#000', mensaje: '<img src=x onerror=alert(1)>' });
+      // Cuando
+      var resultado = JSON.parse(val.validateMessage(msg));
+      // Entonces
+      assert.strictEqual(resultado.tipo, 'texto');
+      assert.ok(resultado.mensaje.indexOf('<img') === -1);
+    });
+
+    it('Dado un nombre de usuario con HTML, cuando se valida, entonces el nombre queda escapado', function(){
+      // Dado
+      var msg = JSON.stringify({ nombre: '<b onmouseover=alert(1)>Eva</b>', color: '#000', mensaje: 'hola' });
+      // Cuando
+      var resultado = JSON.parse(val.validateMessage(msg));
+      // Entonces
+      assert.ok(resultado.nombre.indexOf('<') === -1);
+      assert.ok(resultado.nombre.indexOf('&lt;b') === 0);
+    });
+
+    it('Dado un color con inyeccion de CSS/HTML, cuando se valida, entonces se reemplaza por el color por defecto', function(){
+      // Dado
+      var msg = JSON.stringify({ nombre: 'Ana', color: "red'><script>alert(1)</script>", mensaje: 'hola' });
+      // Cuando
+      var resultado = JSON.parse(val.validateMessage(msg));
+      // Entonces
+      assert.strictEqual(resultado.color, '#000000');
+    });
+
+    it('Dada una URL de imagen con comillas para romper el atributo, cuando se valida, entonces no se trata como imagen', function(){
+      // Dado
+      var msg = JSON.stringify({ nombre: 'Ana', color: '#000', mensaje: 'http://x.com/a.png" onerror="alert(1)' });
+      // Cuando
+      var resultado = JSON.parse(val.validateMessage(msg));
+      // Entonces
+      assert.strictEqual(resultado.tipo, 'texto');
+      assert.ok(resultado.mensaje.indexOf('"') === -1);
+    });
+
+    it('Dada una URL javascript: con extension de imagen, cuando se valida, entonces no se acepta como imagen', function(){
+      // Dado
+      var url = 'javascript:alert(1)//a.png';
+      // Cuando
+      var resultado = val.is_valid_url_image(url);
+      // Entonces
+      assert.strictEqual(resultado, false);
+    });
+
+    it('Dado un enlace de YouTube con un ID manipulado, cuando se valida, entonces no se genera iframe', function(){
+      // Dado
+      var msg = JSON.stringify({ nombre: 'Ana', color: '#000', mensaje: 'https://www.youtube.com/watch?v="><script>alert(1)</script>' });
+      // Cuando
+      var resultado = JSON.parse(val.validateMessage(msg));
+      // Entonces
+      assert.strictEqual(resultado.tipo, 'texto');
+      assert.ok(resultado.mensaje.indexOf('<iframe') === -1);
+    });
+
+    it('Dado un mensaje mas largo que el limite, cuando se valida, entonces se recorta a 500 caracteres', function(){
+      // Dado
+      var msg = JSON.stringify({ nombre: 'Ana', color: '#000', mensaje: new Array(2001).join('a') });
+      // Cuando
+      var resultado = JSON.parse(val.validateMessage(msg));
+      // Entonces
+      assert.strictEqual(resultado.mensaje.length, 500);
     });
 
   });

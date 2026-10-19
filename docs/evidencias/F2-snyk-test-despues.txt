@@ -1,0 +1,18 @@
+
+Testing C:\Users\kathe\OneDrive\Documentos\Seguridad Informatica\Lab5\Lab5-SeguridadInformatica...
+
+Organization:      kamendez04
+Package manager:   npm
+Target file:       package-lock.json
+Project name:      package.json
+Open source:       no
+Project path:      C:\Users\kathe\OneDrive\Documentos\Seguridad Informatica\Lab5\Lab5-SeguridadInformatica
+Licenses:          enabled
+
+✔ Tested 85 dependencies for known issues, no vulnerable paths found.
+
+Next steps:
+- Run `snyk monitor` to be notified about new related vulnerabilities.
+- Run `snyk test` as part of your CI/test.
+
+
