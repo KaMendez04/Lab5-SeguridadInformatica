@@ -1,0 +1,111 @@
+# Pipeline DevSecOps de UNA-chat.
+# Los jobs se encadenan con `needs:`: si uno falla, los siguientes no se ejecutan.
+name: CI DevSecOps
+
+on:
+  push:
+    branches: [main, development]
+  pull_request:
+    branches: [main, development]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '22'
+
+jobs:
+  # 1. Calidad y reglas de seguridad estaticas del codigo JS
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+
+  # 2. Pruebas unitarias BDD (Dado-Cuando-Entonces)
+  test:
+    name: test
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  # 3. SAST (Semgrep + Snyk Code) y SCA (Snyk Open Source)
+  sast:
+    name: sast
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write   # subir SARIF a la pestaña Security
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+
+      - name: Instalar Semgrep y Snyk
+        run: |
+          pipx install semgrep
+          npm install -g snyk
+
+      - name: Semgrep (reglas auto + reglas propias)
+        id: semgrep
+        run: semgrep scan --config auto --config .semgrep.yml --error --sarif --output semgrep.sarif
+
+      - name: OWASP checker (proyecto completo)
+        if: ${{ !cancelled() }}
+        run: node scripts/owasp-checker.js --all
+
+      - name: Snyk Open Source (dependencias)
+        id: snyk_deps
+        if: ${{ !cancelled() }}
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk test --severity-threshold=high --sarif-file-output=snyk-deps.sarif
+
+      - name: Snyk Code (SAST)
+        id: snyk_code
+        if: ${{ !cancelled() }}
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk code test --sarif-file-output=snyk-code.sarif
+
+      - name: Subir SARIF de Semgrep a GitHub Security
+        if: ${{ !cancelled() && hashFiles('semgrep.sarif') != '' }}
+        uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2
+        with:
+          sarif_file: semgrep.sarif
+          category: semgrep
+
+      - name: Subir SARIF de Snyk Code a GitHub Security
+        if: ${{ !cancelled() && hashFiles('snyk-code.sarif') != '' }}
+        uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2
+        with:
+          sarif_file: snyk-code.sarif
+          category: snyk-code
+
+      - name: Subir SARIF de Snyk Open Source a GitHub Security
+        if: ${{ !cancelled() && hashFiles('snyk-deps.sarif') != '' }}
+        uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2
+        with:
+          sarif_file: snyk-deps.sarif
+          category: snyk-open-source
