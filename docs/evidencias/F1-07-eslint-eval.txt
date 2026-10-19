@@ -1,0 +1,16 @@
+
+C:\Users\kathe\OneDrive\Documentos\Seguridad Informatica\Lab5\Lab5-SeguridadInformatica\libs\unalib.js
+  47:16  warning  Unsafe Regular Expression  security/detect-unsafe-regex
+  62:24  warning  Unsafe Regular Expression  security/detect-unsafe-regex
+
+C:\Users\kathe\OneDrive\Documentos\Seguridad Informatica\Lab5\Lab5-SeguridadInformatica\scripts\owasp-checker.js
+   90:23  warning  Found readdirSync from package "fs" with non literal argument at index 0   security/detect-non-literal-fs-filename
+  119:25  warning  Found existsSync from package "fs" with non literal argument at index 0    security/detect-non-literal-fs-filename
+  120:17  warning  Found readFileSync from package "fs" with non literal argument at index 0  security/detect-non-literal-fs-filename
+
+C:\Users\kathe\OneDrive\Documentos\Seguridad Informatica\Lab5\Lab5-SeguridadInformatica\server.js
+  10:5   warning  'prueba' is assigned a value but never used  no-unused-vars
+  10:14  error    eval can be harmful                          no-eval
+
+✖ 7 problems (1 error, 6 warnings)
+
