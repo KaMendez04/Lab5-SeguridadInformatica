@@ -76,6 +76,7 @@ const IGNORE = [
   ".git",
   "coverage",
   "package-lock.json",
+  path.join("docs", "sbom.json"), // inventario generado, no codigo
   path.join("scripts", "owasp-checker.js"),
   "test",
 ];
@@ -88,7 +89,8 @@ function isIgnored(file) {
 function listAll(dir = ".") {
   let out = [];
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const p = path.join(dir, entry.name);
+    // entry.name viene de readdirSync sobre el propio repo, no de entrada de usuario
+    const p = path.join(dir, entry.name); // nosemgrep: javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal
     if (isIgnored(path.relative(".", p))) continue;
     if (entry.isDirectory()) out = out.concat(listAll(p));
     else out.push(path.relative(".", p));
