@@ -1,0 +1,71 @@
+               
+               
+┌─────────────┐
+│ Scan Status │
+└─────────────┘
+  Scanning 22 files tracked by git with 1076 Code rules:
+                                                                                                                        
+  Language      Rules   Files          Origin      Rules                                                                
+ ─────────────────────────────        ───────────────────                                                               
+  <multilang>      62      22          Community    1074                                                                
+  js              153       4          Custom          2                                                                
+  json              4       3                                                                                           
+  yaml             35       2                                                                                           
+  html              1       1                                                                                           
+                                                                                                                        
+                
+                
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 5 (5 blocking)
+ • Rules run: 253
+ • Targets scanned: 22
+ • Parsed lines: ~100.0%
+ • Scan skipped: 
+   ◦ Files matching .semgrepignore patterns: 1
+ • Scan was limited to files tracked by git
+ • For a detailed list of skipped files and lines, run semgrep with the --verbose flag
+Ran 253 rules on 22 files: 5 findings.
+                   
+                   
+┌─────────────────┐
+│ 5 Code Findings │
+└─────────────────┘
+              
+    index.html
+    ❯❱ html.security.audit.missing-integrity.missing-integrity
+          ❰❰ Blocking ❱❱
+          This tag is missing an 'integrity' subresource integrity attribute. The 'integrity' attribute allows
+          for the browser to verify that externally hosted files (for example from a CDN) are delivered       
+          without unexpected manipulation. Without this attribute, if an attacker can modify the externally   
+          hosted resource, this could lead to XSS and other types of attacks. To prevent this, include the    
+          base64-encoded cryptographic hash of the resource (file) you’re telling the browser to fetch in the 
+          'integrity' attribute for all externally hosted files.                                              
+          Details: https://sg.run/krXA                                                                        
+                                                                                                              
+           26┆ <script src="https://cdn.socket.io/4.7.2/socket.io.js"></script>
+            ⋮┆----------------------------------------
+           27┆ <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+   
+   ❯❯❱ jquery-insecure-html-xss
+          ❰❰ Blocking ❱❱
+          Posible Cross-Site Scripting (XSS) detectado: inserción de contenido no confiable en el DOM mediante
+          jQuery .html(). Use .text() o sanee el contenido con una librería de escape HTML antes de           
+          insertarlo.                                                                                         
+                                                                                                              
+           67┆ $('#messages').append($('<li>').html(mensajeDisplay));
+                            
+    scripts\owasp-checker.js
+    ❯❱ javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal
+          ❰❰ Blocking ❱❱
+          Detected possible user input going into a `path.join` or `path.resolve` function. This could   
+          possibly lead to a path traversal vulnerability,  where the attacker can access arbitrary files
+          stored in the file system. Instead, be sure to sanitize or validate user input first.          
+          Details: https://sg.run/OPqk                                                                   
+                                                                                                         
+           91┆ const p = path.join(dir, entry.name);
+            ⋮┆----------------------------------------
+           91┆ const p = path.join(dir, entry.name);
+

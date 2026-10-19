@@ -1,0 +1,29 @@
+
+Testing C:\Users\kathe\OneDrive\Documentos\Seguridad Informatica\Lab5\Lab5-SeguridadInformatica ...
+
+Open Issues
+
+ ✗ [MEDIUM] Allocation of Resources Without Limits or Throttling
+   Finding ID: 05ebd829-89db-46c9-8b06-8548ed5f0ded
+   Path: server.js, line 12
+   Info: Expensive operation (a file system operation) is performed by an endpoint handler which does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.
+
+
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Test Summary                                                                                                    │
+│                                                                                                                 │
+│   Organization:      kamendez04                                                                                 │
+│   Test type:         Static code analysis                                                                       │
+│   Project path:      C:\Users\kathe\OneDrive\Documentos\Seguridad Informatica\Lab5\Lab5-SeguridadInformatica    │
+│                                                                                                                 │
+│   Total issues:   1                                                                                             │
+│   Ignored issues: 0 [ 0 HIGH  0 MEDIUM  0 LOW ]                                                                 │
+│   Open issues:    1 [ 0 HIGH  1 MEDIUM  0 LOW ]                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+    
+💡 Tip
+
+   To view ignored issues, use the --include-ignores option.
+                                                            
+

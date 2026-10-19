@@ -1,0 +1,96 @@
+
+Testing C:\Users\kathe\OneDrive\Documentos\Seguridad Informatica\Lab5\Lab5-SeguridadInformatica...
+
+Tested 147 dependencies for known issues, found 31 issues, 46 vulnerable paths.
+
+
+Issues to fix by upgrading:
+
+  Upgrade express@4.18.2 to express@4.22.3 to fix
+  ✗ Uncaught Exception (new) [High Severity][https://security.snyk.io/vuln/SNYK-JS-QS-20943482] in qs@6.11.0
+    introduced by express@4.18.2 > qs@6.11.0 and 1 other path(s)
+  ✗ Allocation of Resources Without Limits or Throttling [High Severity][https://security.snyk.io/vuln/SNYK-JS-QS-14724253] in qs@6.11.0
+    introduced by express@4.18.2 > qs@6.11.0 and 1 other path(s)
+  ✗ Allocation of Resources Without Limits or Throttling [High Severity][https://security.snyk.io/vuln/SNYK-JS-QS-15268416] in qs@6.11.0
+    introduced by express@4.18.2 > qs@6.11.0 and 1 other path(s)
+  ✗ Asymmetric Resource Consumption (Amplification) [High Severity][https://security.snyk.io/vuln/SNYK-JS-BODYPARSER-7926860] in body-parser@1.20.1
+    introduced by express@4.18.2 > body-parser@1.20.1
+
+  Upgrade mocha@10.2.0 to mocha@12.0.0 to fix
+  ✗ Infinite loop [High Severity][https://security.snyk.io/vuln/SNYK-JS-BRACEEXPANSION-15789759] in brace-expansion@1.1.11
+    introduced by mocha@10.2.0 > glob@7.2.0 > minimatch@3.1.2 > brace-expansion@1.1.11 and 1 other path(s)
+  ✗ Inefficient Algorithmic Complexity [High Severity][https://security.snyk.io/vuln/SNYK-JS-BRACEEXPANSION-17706650] in brace-expansion@1.1.11
+    introduced by mocha@10.2.0 > glob@7.2.0 > minimatch@3.1.2 > brace-expansion@1.1.11 and 1 other path(s)
+  ✗ Allocation of Resources Without Limits or Throttling [High Severity][https://security.snyk.io/vuln/SNYK-JS-BRACEEXPANSION-18313044] in brace-expansion@1.1.11
+    introduced by mocha@10.2.0 > glob@7.2.0 > minimatch@3.1.2 > brace-expansion@1.1.11 and 1 other path(s)
+  ✗ Allocation of Resources Without Limits or Throttling [High Severity][https://security.snyk.io/vuln/SNYK-JS-BRACEEXPANSION-18512280] in brace-expansion@1.1.11
+    introduced by mocha@10.2.0 > glob@7.2.0 > minimatch@3.1.2 > brace-expansion@1.1.11 and 1 other path(s)
+  ✗ Uncontrolled Recursion (new) [High Severity][https://security.snyk.io/vuln/SNYK-JS-BRACEEXPANSION-20244948] in brace-expansion@1.1.11
+    introduced by mocha@10.2.0 > glob@7.2.0 > minimatch@3.1.2 > brace-expansion@1.1.11 and 1 other path(s)
+  ✗ Uncontrolled Recursion (new) [High Severity][https://security.snyk.io/vuln/SNYK-JS-BRACEEXPANSION-20244952] in brace-expansion@1.1.11
+    introduced by mocha@10.2.0 > glob@7.2.0 > minimatch@3.1.2 > brace-expansion@1.1.11 and 1 other path(s)
+  ✗ Regular Expression Denial of Service (ReDoS) [High Severity][https://security.snyk.io/vuln/SNYK-JS-MINIMATCH-15309438] in minimatch@3.1.2
+    introduced by mocha@10.2.0 > glob@7.2.0 > minimatch@3.1.2 and 1 other path(s)
+  ✗ Inefficient Algorithmic Complexity [High Severity][https://security.snyk.io/vuln/SNYK-JS-MINIMATCH-15353389] in minimatch@3.1.2
+    introduced by mocha@10.2.0 > glob@7.2.0 > minimatch@3.1.2 and 1 other path(s)
+  ✗ Allocation of Resources Without Limits or Throttling [High Severity][https://security.snyk.io/vuln/SNYK-JS-SERIALIZEJAVASCRIPT-15809196] in serialize-javascript@6.0.0
+    introduced by mocha@10.2.0 > serialize-javascript@6.0.0
+  ✗ Arbitrary Code Injection [High Severity][https://security.snyk.io/vuln/SNYK-JS-SERIALIZEJAVASCRIPT-570062] in serialize-javascript@6.0.0
+    introduced by mocha@10.2.0 > serialize-javascript@6.0.0
+  ✗ Uncontrolled Recursion (new) [High Severity][https://security.snyk.io/vuln/SNYK-JS-BRACES-19963945] in braces@3.0.2
+    introduced by mocha@10.2.0 > chokidar@3.5.3 > braces@3.0.2
+  ✗ Regular Expression Denial of Service (ReDoS) (new) [High Severity][https://security.snyk.io/vuln/SNYK-JS-PICOMATCH-21248802] in picomatch@2.3.1
+    introduced by mocha@10.2.0 > chokidar@3.5.3 > anymatch@3.1.3 > picomatch@2.3.1 and 1 other path(s)
+  ✗ Inefficient Algorithmic Complexity [High Severity][https://security.snyk.io/vuln/SNYK-JS-JSYAML-17900054] in js-yaml@4.1.0
+    introduced by mocha@10.2.0 > js-yaml@4.1.0
+  ✗ Inefficient Algorithmic Complexity [High Severity][https://security.snyk.io/vuln/SNYK-JS-JSYAML-18593780] in js-yaml@4.1.0
+    introduced by mocha@10.2.0 > js-yaml@4.1.0
+  ✗ Allocation of Resources Without Limits or Throttling [High Severity][https://security.snyk.io/vuln/SNYK-JS-JSYAML-19496768] in js-yaml@4.1.0
+    introduced by mocha@10.2.0 > js-yaml@4.1.0
+  ✗ Infinite loop [High Severity][https://security.snyk.io/vuln/SNYK-JS-NANOID-18506894] in nanoid@3.3.3
+    introduced by mocha@10.2.0 > nanoid@3.3.3
+  ✗ Infinite loop [High Severity][https://security.snyk.io/vuln/SNYK-JS-NANOID-18506897] in nanoid@3.3.3
+    introduced by mocha@10.2.0 > nanoid@3.3.3
+  ✗ Integer Overflow or Wraparound [High Severity][https://security.snyk.io/vuln/SNYK-JS-NANOID-18748186] in nanoid@3.3.3
+    introduced by mocha@10.2.0 > nanoid@3.3.3
+
+  Upgrade socket.io@4.7.2 to socket.io@4.8.0 to fix
+  ✗ Improper Resource Shutdown or Release [High Severity][https://security.snyk.io/vuln/SNYK-JS-ENGINEIO-17900543] in engine.io@6.5.2
+    introduced by socket.io@4.7.2 > engine.io@6.5.2
+  ✗ Prototype Pollution [High Severity][https://security.snyk.io/vuln/SNYK-JS-ENGINEIO-17900560] in engine.io@6.5.2
+    introduced by socket.io@4.7.2 > engine.io@6.5.2
+  ✗ Asymmetric Resource Consumption (Amplification) [High Severity][https://security.snyk.io/vuln/SNYK-JS-WS-17344547] in ws@8.11.0
+    introduced by socket.io@4.7.2 > engine.io@6.5.2 > ws@8.11.0 and 1 other path(s)
+
+
+Issues with no direct upgrade or patch:
+  ✗ Excessive Platform Resource Consumption within a Loop [High Severity][https://security.snyk.io/vuln/SNYK-JS-BRACES-6838727] in braces@3.0.2
+    introduced by mocha@10.2.0 > chokidar@3.5.3 > braces@3.0.2
+  This issue was fixed in versions: 3.0.3
+  ✗ Regular Expression Denial of Service (ReDoS) [High Severity][https://security.snyk.io/vuln/SNYK-JS-PICOMATCH-15765511] in picomatch@2.3.1
+    introduced by mocha@10.2.0 > chokidar@3.5.3 > anymatch@3.1.3 > picomatch@2.3.1 and 1 other path(s)
+  This issue was fixed in versions: 2.3.2, 3.0.2, 4.0.4
+  ✗ User Impersonation [Critical Severity][https://security.snyk.io/vuln/SNYK-JS-PROXYADDR-19812342] in proxy-addr@2.0.7
+    introduced by express@4.18.2 > proxy-addr@2.0.7
+  This issue was fixed in versions: 2.0.8
+  ✗ Allocation of Resources Without Limits or Throttling [High Severity][https://security.snyk.io/vuln/SNYK-JS-SOCKETIOPARSER-15680278] in socket.io-parser@4.2.4
+    introduced by socket.io@4.7.2 > socket.io-parser@4.2.4
+  This issue was fixed in versions: 3.3.5, 3.4.4, 4.2.6
+  ✗ Improper Check for Unusual or Exceptional Conditions [High Severity][https://security.snyk.io/vuln/SNYK-JS-SOCKETIOPARSER-18517008] in socket.io-parser@4.2.4
+    introduced by socket.io@4.7.2 > socket.io-parser@4.2.4
+  This issue was fixed in versions: 3.3.6, 3.4.5, 4.2.7
+  ✗ Denial of Service (DoS) [High Severity][https://security.snyk.io/vuln/SNYK-JS-WS-7266574] in ws@8.11.0
+    introduced by socket.io@4.7.2 > engine.io@6.5.2 > ws@8.11.0 and 1 other path(s)
+  This issue was fixed in versions: 5.2.4, 6.2.3, 7.5.10, 8.17.1
+
+
+
+Organization:      kamendez04
+Package manager:   npm
+Target file:       package-lock.json
+Project name:      package.json
+Open source:       no
+Project path:      C:\Users\kathe\OneDrive\Documentos\Seguridad Informatica\Lab5\Lab5-SeguridadInformatica
+Licenses:          enabled
+
+
