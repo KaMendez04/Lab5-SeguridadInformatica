@@ -1,0 +1,19 @@
+
+Testing C:\Users\kathe\OneDrive\Documentos\Seguridad Informatica\Lab5\Lab5-SeguridadInformatica ...
+
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Test Summary                                                                                                    │
+│                                                                                                                 │
+│   Organization:      kamendez04                                                                                 │
+│   Test type:         Static code analysis                                                                       │
+│   Project path:      C:\Users\kathe\OneDrive\Documentos\Seguridad Informatica\Lab5\Lab5-SeguridadInformatica    │
+│                                                                                                                 │
+│   Total issues:   0                                                                                             │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+    
+💡 Tip
+
+   To view ignored issues, use the --include-ignores option.
+                                                            
+

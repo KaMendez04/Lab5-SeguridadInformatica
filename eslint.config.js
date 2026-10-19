@@ -14,6 +14,7 @@ module.exports = [
         __dirname: 'readonly',
         process: 'readonly',
         console: 'readonly',
+        URL: 'readonly',
         describe: 'readonly',
         it: 'readonly',
         before: 'readonly',
@@ -28,6 +29,18 @@ module.exports = [
       'no-eval': 'error',
       'no-implied-eval': 'error',
       'no-new-func': 'error'
+    }
+  },
+  {
+    // cliente del navegador
+    files: ['public/**/*.js'],
+    languageOptions: {
+      sourceType: 'script',
+      globals: {
+        window: 'readonly',
+        document: 'readonly',
+        DOMParser: 'readonly'
+      }
     }
   },
   {
