@@ -1,0 +1,24 @@
+→ lint-staged could not find any staged files matching configured tasks.
+
+> security:check
+> node scripts/owasp-checker.js
+
+
+OWASP checker - 1 archivo(s) revisado(s) (archivos en stage)
+
+[MEDIA] A08-missing-sri  index.html:26
+   Script externo sin atributo integrity (SRI).
+   > <script src="https://cdn.socket.io/4.7.2/socket.io.js"></script>
+
+[MEDIA] A08-missing-sri  index.html:27
+   Script externo sin atributo integrity (SRI).
+   > <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+[ALTA] A03-XSS-html  index.html:67
+   Inserta HTML sin sanitizar con .html() (XSS). Usar .text() o escapar la entrada.
+   > $('#messages').append($('<li>').html(mensajeDisplay)); // mostrar mensaje
+
+Total: 3 hallazgo(s), 1 de severidad ALTA.
+Commit BLOQUEADO: corrija los hallazgos de severidad ALTA.
+
+husky - pre-commit script failed (code 1)

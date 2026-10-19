@@ -1,0 +1,23 @@
+⋯ Backing up original state…
+✔ Done backing up original state (5503b9b)!
+⋯ Running tasks for staged files…
+    *.js — 1 file
+      ⋯ eslint
+
+✖ eslint
+
+✖ Failed to run tasks for staged files!
+↓ Skipped staging changes from tasks…
+⋯ Reverting to original state because of errors…
+✔ Done reverting to original state!
+⋯ Cleaning up temporary files…
+✔ Done cleaning up temporary files!
+
+✖ eslint:
+
+C:\Users\kathe\OneDrive\Documentos\Seguridad Informatica\Lab5\Lab5-SeguridadInformatica\server.js
+  10:5   warning  'prueba' is assigned a value but never used  no-unused-vars
+  10:14  error    eval can be harmful                          no-eval
+
+✖ 2 problems (1 error, 1 warning)
+husky - pre-commit script failed (code 1)
