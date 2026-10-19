@@ -1,0 +1,235 @@
+sast	Semgrep (reglas auto + reglas propias)	﻿2026-10-19T20:59:11.5803746Z ##[group]Run semgrep scan --config auto --config .semgrep.yml --error --sarif --output semgrep.sarif
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:11.5804981Z ^[[36;1msemgrep scan --config auto --config .semgrep.yml --error --sarif --output semgrep.sarif^[[0m
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:11.5891325Z shell: /usr/bin/bash -e {0}
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:11.5891768Z env:
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:11.5892076Z   NODE_VERSION: 22
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:11.5892426Z ##[endgroup]
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:14.1961299Z                
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:14.1961748Z                
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:14.1962433Z ┌─────────────┐
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:14.1962896Z │ Scan Status │
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:14.1963407Z └─────────────┘
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:14.1968489Z   Scanning 22 files tracked by git with 1076 Code rules:
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:14.2058368Z                                                                                                                         
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:14.2059793Z   Language      Rules   Files          Origin      Rules                                                                
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:14.2061310Z  ─────────────────────────────        ───────────────────                                                               
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:14.2062428Z   <multilang>      62      22          Community    1074                                                                
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:14.2064010Z   js              153       4          Custom          2                                                                
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:14.2065057Z   json              4       3                                                                                           
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:14.2066248Z   yaml             35       2                                                                                           
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:14.2067197Z   html              1       1                                                                                           
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:14.2068114Z                                                                                                                         
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:16.4399713Z                 
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:16.4400199Z                 
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:16.4405038Z ┌──────────────┐
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:16.4405792Z │ Scan Summary │
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:16.4406288Z └──────────────┘
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:16.4406878Z ✅ Scan completed successfully.
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:16.4407445Z  • Findings: 5 (5 blocking)
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:16.4407910Z  • Rules run: 253
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:16.4408332Z  • Targets scanned: 22
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:16.4408780Z  • Parsed lines: ~100.0%
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:16.4409260Z  • Scan skipped: 
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:16.4409875Z    ◦ Files matching .semgrepignore patterns: 1
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:16.4410686Z  • Scan was limited to files tracked by git
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:16.4411692Z  • For a detailed list of skipped files and lines, run semgrep with the --verbose flag
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:16.4412586Z Ran 253 rules on 22 files: 5 findings.
+sast	Semgrep (reglas auto + reglas propias)	2026-10-19T20:59:17.0347192Z ##[error]Process completed with exit code 1.
+sast	OWASP checker (proyecto completo)	﻿2026-10-19T20:59:17.0407552Z ##[group]Run node scripts/owasp-checker.js --all
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.0407980Z ^[[36;1mnode scripts/owasp-checker.js --all^[[0m
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.0471906Z shell: /usr/bin/bash -e {0}
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.0472187Z env:
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.0472381Z   NODE_VERSION: 22
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.0472624Z ##[endgroup]
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.0996668Z 
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.0997567Z OWASP checker - 38 archivo(s) revisado(s) (proyecto completo)
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.0998126Z 
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.0999493Z [MEDIA] A06-wildcard-version  docs/sbom.json:752
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1000226Z    Dependencia sin version fija ("*" o "latest").
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1000792Z    > "value": "*"
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1001037Z 
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1001429Z [MEDIA] A06-wildcard-version  docs/sbom.json:2634
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1002418Z    Dependencia sin version fija ("*" o "latest").
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1002995Z    > "value": "*"
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1003247Z 
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1003619Z [MEDIA] A06-wildcard-version  docs/sbom.json:3156
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1004403Z    Dependencia sin version fija ("*" o "latest").
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1004966Z    > "value": "*"
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1005457Z 
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1005833Z [MEDIA] A06-wildcard-version  docs/sbom.json:6876
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1006538Z    Dependencia sin version fija ("*" o "latest").
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1007149Z    > "value": "*"
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1007398Z 
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1007766Z [MEDIA] A06-wildcard-version  docs/sbom.json:6931
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1008484Z    Dependencia sin version fija ("*" o "latest").
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1009296Z    > "value": "*"
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1009541Z 
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1010066Z [MEDIA] A06-wildcard-version  docs/sbom.json:15331
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1010601Z    Dependencia sin version fija ("*" o "latest").
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1011004Z    > "value": "*"
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1011239Z 
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1011598Z [MEDIA] A08-missing-sri  index.html:26
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1012309Z    Script externo sin atributo integrity (SRI).
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1012997Z    > <script src="https://cdn.socket.io/4.7.2/socket.io.js"></script>
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1013465Z 
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1013731Z [MEDIA] A08-missing-sri  index.html:27
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1014274Z    Script externo sin atributo integrity (SRI).
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1015571Z    > <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1016048Z 
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1016324Z [ALTA] A03-XSS-html  index.html:67
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1017010Z    Inserta HTML sin sanitizar con .html() (XSS). Usar .text() o escapar la entrada.
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1017814Z    > $('#messages').append($('<li>').html(mensajeDisplay));
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1018178Z 
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1018487Z [MEDIA] A06-wildcard-version  package.json:3
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1019115Z    Dependencia sin version fija ("*" o "latest").
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1019628Z    > "express": "*",
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1019858Z 
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1020155Z [MEDIA] A06-wildcard-version  package.json:5
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1020774Z    Dependencia sin version fija ("*" o "latest").
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1021295Z    > "socket.io": "*"
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1021530Z 
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1021815Z Total: 11 hallazgo(s), 1 de severidad ALTA.
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1022549Z Commit BLOQUEADO: corrija los hallazgos de severidad ALTA.
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1022996Z 
+sast	OWASP checker (proyecto completo)	2026-10-19T20:59:17.1052939Z ##[error]Process completed with exit code 1.
+sast	Snyk Open Source (dependencias)	﻿2026-10-19T20:59:17.1088340Z ##[group]Run snyk test --severity-threshold=high --sarif-file-output=snyk-deps.sarif
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:17.1088980Z ^[[36;1msnyk test --severity-threshold=high --sarif-file-output=snyk-deps.sarif^[[0m
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:17.1153474Z shell: /usr/bin/bash -e {0}
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:17.1153739Z env:
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:17.1153934Z   NODE_VERSION: 22
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:17.1154475Z   SNYK_TOKEN: ***
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:17.1154694Z ##[endgroup]
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0324767Z 
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0326388Z Testing /home/runner/work/Lab5-SeguridadInformatica/Lab5-SeguridadInformatica...
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0327136Z 
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0327712Z Tested 147 dependencies for known issues, found 31 issues, 46 vulnerable paths.
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0328228Z 
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0328239Z 
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0328442Z Issues to fix by upgrading:
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0328727Z 
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0329100Z   Upgrade express@4.18.2 to express@4.22.3 to fix
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0330748Z   ✗ Uncaught Exception (new) [High Severity][https://security.snyk.io/vuln/SNYK-JS-QS-20943482] in qs@6.11.0
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0332241Z     introduced by express@4.18.2 > qs@6.11.0 and 1 other path(s)
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0333913Z   ✗ Allocation of Resources Without Limits or Throttling [High Severity][https://security.snyk.io/vuln/SNYK-JS-QS-14724253] in qs@6.11.0
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0335622Z     introduced by express@4.18.2 > qs@6.11.0 and 1 other path(s)
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0337187Z   ✗ Allocation of Resources Without Limits or Throttling [High Severity][https://security.snyk.io/vuln/SNYK-JS-QS-15268416] in qs@6.11.0
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0338487Z     introduced by express@4.18.2 > qs@6.11.0 and 1 other path(s)
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0340106Z   ✗ Asymmetric Resource Consumption (Amplification) [High Severity][https://security.snyk.io/vuln/SNYK-JS-BODYPARSER-7926860] in body-parser@1.20.1
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0341632Z     introduced by express@4.18.2 > body-parser@1.20.1
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0342149Z 
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0342843Z   Upgrade mocha@10.2.0 to mocha@12.0.0 to fix
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0344815Z   ✗ Infinite loop [High Severity][https://security.snyk.io/vuln/SNYK-JS-BRACEEXPANSION-15789759] in brace-expansion@1.1.11
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0346879Z     introduced by mocha@10.2.0 > glob@7.2.0 > minimatch@3.1.2 > brace-expansion@1.1.11 and 1 other path(s)
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0349985Z   ✗ Inefficient Algorithmic Complexity [High Severity][https://security.snyk.io/vuln/SNYK-JS-BRACEEXPANSION-17706650] in brace-expansion@1.1.11
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0352114Z     introduced by mocha@10.2.0 > glob@7.2.0 > minimatch@3.1.2 > brace-expansion@1.1.11 and 1 other path(s)
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0354797Z   ✗ Allocation of Resources Without Limits or Throttling [High Severity][https://security.snyk.io/vuln/SNYK-JS-BRACEEXPANSION-18313044] in brace-expansion@1.1.11
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0357587Z     introduced by mocha@10.2.0 > glob@7.2.0 > minimatch@3.1.2 > brace-expansion@1.1.11 and 1 other path(s)
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0360702Z   ✗ Allocation of Resources Without Limits or Throttling [High Severity][https://security.snyk.io/vuln/SNYK-JS-BRACEEXPANSION-18512280] in brace-expansion@1.1.11
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0363739Z     introduced by mocha@10.2.0 > glob@7.2.0 > minimatch@3.1.2 > brace-expansion@1.1.11 and 1 other path(s)
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0366488Z   ✗ Uncontrolled Recursion (new) [High Severity][https://security.snyk.io/vuln/SNYK-JS-BRACEEXPANSION-20244948] in brace-expansion@1.1.11
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0368667Z     introduced by mocha@10.2.0 > glob@7.2.0 > minimatch@3.1.2 > brace-expansion@1.1.11 and 1 other path(s)
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0371207Z   ✗ Uncontrolled Recursion (new) [High Severity][https://security.snyk.io/vuln/SNYK-JS-BRACEEXPANSION-20244952] in brace-expansion@1.1.11
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0373339Z     introduced by mocha@10.2.0 > glob@7.2.0 > minimatch@3.1.2 > brace-expansion@1.1.11 and 1 other path(s)
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0375865Z   ✗ Regular Expression Denial of Service (ReDoS) [High Severity][https://security.snyk.io/vuln/SNYK-JS-MINIMATCH-15309438] in minimatch@3.1.2
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0378063Z     introduced by mocha@10.2.0 > glob@7.2.0 > minimatch@3.1.2 and 1 other path(s)
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0380180Z   ✗ Inefficient Algorithmic Complexity [High Severity][https://security.snyk.io/vuln/SNYK-JS-MINIMATCH-15353389] in minimatch@3.1.2
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0381915Z     introduced by mocha@10.2.0 > glob@7.2.0 > minimatch@3.1.2 and 1 other path(s)
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0384369Z   ✗ Allocation of Resources Without Limits or Throttling [High Severity][https://security.snyk.io/vuln/SNYK-JS-SERIALIZEJAVASCRIPT-15809196] in serialize-javascript@6.0.0
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0386472Z     introduced by mocha@10.2.0 > serialize-javascript@6.0.0
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0388454Z   ✗ Arbitrary Code Injection [High Severity][https://security.snyk.io/vuln/SNYK-JS-SERIALIZEJAVASCRIPT-570062] in serialize-javascript@6.0.0
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0390264Z     introduced by mocha@10.2.0 > serialize-javascript@6.0.0
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0392025Z   ✗ Uncontrolled Recursion (new) [High Severity][https://security.snyk.io/vuln/SNYK-JS-BRACES-19963945] in braces@3.0.2
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0393511Z     introduced by mocha@10.2.0 > chokidar@3.5.3 > braces@3.0.2
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0395767Z   ✗ Regular Expression Denial of Service (ReDoS) (new) [High Severity][https://security.snyk.io/vuln/SNYK-JS-PICOMATCH-21248802] in picomatch@2.3.1
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0397662Z     introduced by mocha@10.2.0 > chokidar@3.5.3 > anymatch@3.1.3 > picomatch@2.3.1 and 1 other path(s)
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0399605Z   ✗ Inefficient Algorithmic Complexity [High Severity][https://security.snyk.io/vuln/SNYK-JS-JSYAML-17900054] in js-yaml@4.1.0
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0401239Z     introduced by mocha@10.2.0 > js-yaml@4.1.0
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0403672Z   ✗ Inefficient Algorithmic Complexity [High Severity][https://security.snyk.io/vuln/SNYK-JS-JSYAML-18593780] in js-yaml@4.1.0
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0405577Z     introduced by mocha@10.2.0 > js-yaml@4.1.0
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0407547Z   ✗ Allocation of Resources Without Limits or Throttling [High Severity][https://security.snyk.io/vuln/SNYK-JS-JSYAML-19496768] in js-yaml@4.1.0
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0409463Z     introduced by mocha@10.2.0 > js-yaml@4.1.0
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0411023Z   ✗ Infinite loop [High Severity][https://security.snyk.io/vuln/SNYK-JS-NANOID-18506894] in nanoid@3.3.3
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0412510Z     introduced by mocha@10.2.0 > nanoid@3.3.3
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0414187Z   ✗ Infinite loop [High Severity][https://security.snyk.io/vuln/SNYK-JS-NANOID-18506897] in nanoid@3.3.3
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0415994Z     introduced by mocha@10.2.0 > nanoid@3.3.3
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0417827Z   ✗ Integer Overflow or Wraparound [High Severity][https://security.snyk.io/vuln/SNYK-JS-NANOID-18748186] in nanoid@3.3.3
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0419020Z     introduced by mocha@10.2.0 > nanoid@3.3.3
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0419500Z 
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0426606Z   Upgrade socket.io@4.7.2 to socket.io@4.8.0 to fix
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0428977Z   ✗ Improper Resource Shutdown or Release [High Severity][https://security.snyk.io/vuln/SNYK-JS-ENGINEIO-17900543] in engine.io@6.5.2
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0430737Z     introduced by socket.io@4.7.2 > engine.io@6.5.2
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0432316Z   ✗ Prototype Pollution [High Severity][https://security.snyk.io/vuln/SNYK-JS-ENGINEIO-17900560] in engine.io@6.5.2
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0433654Z     introduced by socket.io@4.7.2 > engine.io@6.5.2
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0435666Z   ✗ Asymmetric Resource Consumption (Amplification) [High Severity][https://security.snyk.io/vuln/SNYK-JS-WS-17344547] in ws@8.11.0
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0437724Z     introduced by socket.io@4.7.2 > engine.io@6.5.2 > ws@8.11.0 and 1 other path(s)
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0438649Z 
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0438792Z 
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0439104Z Issues with no direct upgrade or patch:
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0440793Z   ✗ Excessive Platform Resource Consumption within a Loop [High Severity][https://security.snyk.io/vuln/SNYK-JS-BRACES-6838727] in braces@3.0.2
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0442306Z     introduced by mocha@10.2.0 > chokidar@3.5.3 > braces@3.0.2
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0443285Z   This issue was fixed in versions: 3.0.3
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0445532Z   ✗ Regular Expression Denial of Service (ReDoS) [High Severity][https://security.snyk.io/vuln/SNYK-JS-PICOMATCH-15765511] in picomatch@2.3.1
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0458818Z     introduced by mocha@10.2.0 > chokidar@3.5.3 > anymatch@3.1.3 > picomatch@2.3.1 and 1 other path(s)
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0459480Z   This issue was fixed in versions: 2.3.2, 3.0.2, 4.0.4
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0460331Z   ✗ User Impersonation [Critical Severity][https://security.snyk.io/vuln/SNYK-JS-PROXYADDR-19812342] in proxy-addr@2.0.7
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0461020Z     introduced by express@4.18.2 > proxy-addr@2.0.7
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0461449Z   This issue was fixed in versions: 2.0.8
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0462479Z   ✗ Allocation of Resources Without Limits or Throttling [High Severity][https://security.snyk.io/vuln/SNYK-JS-SOCKETIOPARSER-15680278] in socket.io-parser@4.2.4
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0463298Z     introduced by socket.io@4.7.2 > socket.io-parser@4.2.4
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0463725Z   This issue was fixed in versions: 3.3.5, 3.4.4, 4.2.6
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0464664Z   ✗ Improper Check for Unusual or Exceptional Conditions [High Severity][https://security.snyk.io/vuln/SNYK-JS-SOCKETIOPARSER-18517008] in socket.io-parser@4.2.4
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0466082Z     introduced by socket.io@4.7.2 > socket.io-parser@4.2.4
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0466842Z   This issue was fixed in versions: 3.3.6, 3.4.5, 4.2.7
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0468037Z   ✗ Denial of Service (DoS) [High Severity][https://security.snyk.io/vuln/SNYK-JS-WS-7266574] in ws@8.11.0
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0469280Z     introduced by socket.io@4.7.2 > engine.io@6.5.2 > ws@8.11.0 and 1 other path(s)
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0470169Z   This issue was fixed in versions: 5.2.4, 6.2.3, 7.5.10, 8.17.1
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0470628Z 
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0470640Z 
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0470648Z 
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0470870Z Organization:      kamendez04
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0471370Z Package manager:   npm
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0471937Z Target file:       package-lock.json
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0472518Z Project name:      package.json
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0472996Z Open source:       no
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0473895Z Project path:      /home/runner/work/Lab5-SeguridadInformatica/Lab5-SeguridadInformatica
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0474727Z Licenses:          enabled
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0475002Z 
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:27.0475011Z 
+sast	Snyk Open Source (dependencias)	2026-10-19T20:59:28.9479158Z ##[error]Process completed with exit code 1.
+sast	Snyk Code (SAST)	﻿2026-10-19T20:59:28.9530622Z ##[group]Run snyk code test --sarif-file-output=snyk-code.sarif
+sast	Snyk Code (SAST)	2026-10-19T20:59:28.9531115Z ^[[36;1msnyk code test --sarif-file-output=snyk-code.sarif^[[0m
+sast	Snyk Code (SAST)	2026-10-19T20:59:28.9592864Z shell: /usr/bin/bash -e {0}
+sast	Snyk Code (SAST)	2026-10-19T20:59:28.9593126Z env:
+sast	Snyk Code (SAST)	2026-10-19T20:59:28.9593316Z   NODE_VERSION: 22
+sast	Snyk Code (SAST)	2026-10-19T20:59:28.9593658Z   SNYK_TOKEN: ***
+sast	Snyk Code (SAST)	2026-10-19T20:59:28.9593866Z ##[endgroup]
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.3284416Z 
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.3286082Z Testing /home/runner/work/Lab5-SeguridadInformatica/Lab5-SeguridadInformatica ...
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.3286921Z 
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.3287107Z Open Issues
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.3287332Z 
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.3288236Z  ✗ [MEDIUM] Allocation of Resources Without Limits or Throttling
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.3289330Z    Finding ID: 05ebd829-89db-46c9-8b06-8548ed5f0ded
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.3290072Z    Path: server.js, line 12
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.3293610Z    Info: Expensive operation (a file system operation) is performed by an endpoint handler which does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.3297265Z 
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.3297313Z 
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.3297321Z 
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.5114798Z ╭───────────────────────────────────────────────────────────────────────────────────────────────╮
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.5116383Z │ Test Summary                                                                                  │
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.5117438Z │                                                                                               │
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.5119125Z │   Organization:                                                                               │
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.5120977Z │   Test type:         Static code analysis                                                     │
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.5122950Z │   Project path:      /home/runner/work/Lab5-SeguridadInformatica/Lab5-SeguridadInformatica    │
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.5124245Z │                                                                                               │
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.5125544Z │   Total issues:   1                                                                           │
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.5127357Z │   Ignored issues: 0 [ 0 HIGH  0 MEDIUM  0 LOW ]                                               │
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.5128612Z │   Open issues:    1 [ 0 HIGH  1 MEDIUM  0 LOW ]                                               │
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.5129899Z ╰───────────────────────────────────────────────────────────────────────────────────────────────╯
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.5130544Z     
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.5130903Z 💡 Tip
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.5131093Z 
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.5131452Z    To view ignored issues, use the --include-ignores option.
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.5132132Z                                                             
+sast	Snyk Code (SAST)	2026-10-19T20:59:48.5132494Z 
+sast	Snyk Code (SAST)	2026-10-19T20:59:49.3936605Z ##[error]Process completed with exit code 1.
