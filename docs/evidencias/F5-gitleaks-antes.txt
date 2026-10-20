@@ -1,0 +1,10 @@
+3:16AM INF scanned ~110 bytes (110 bytes) in 14.1ms
+Finding:     ...nst GITHUB_TOKEN = '[1;3;mghp_LV52BfdpzS7E...[0m';
+3:16AM WRN leaks found: 1
+Secret:      [1;3;mghp_LV52BfdpzS7E...[0m
+RuleID:      github-pat
+Entropy:     5.221928
+File:        /repo/config.js
+Line:        2
+Fingerprint: /repo/config.js:github-pat:2
+

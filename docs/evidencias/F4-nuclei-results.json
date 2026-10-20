@@ -1,0 +1,274 @@
+[
+  {
+    "template": "ssl/tls-version.yaml",
+    "template-url": "https://cloud.projectdiscovery.io/public/tls-version",
+    "template-id": "tls-version",
+    "template-path": "/home/runner/nuclei-templates/ssl/tls-version.yaml",
+    "info": {
+      "name": "TLS Version - Detect",
+      "author": [
+        "pdteam",
+        "pussycat0x"
+      ],
+      "tags": [
+        "ssl",
+        "tls",
+        "discovery"
+      ],
+      "description": "TLS version detection is a security process used to determine the version of the Transport Layer Security (TLS) protocol used by a computer or server.\nIt is important to detect the TLS version in order to ensure secure communication between two computers or servers.\n",
+      "severity": "info",
+      "metadata": {
+        "max-request": 4
+      }
+    },
+    "type": "ssl",
+    "host": "una-chat-development.onrender.com",
+    "port": "443",
+    "matched-at": "una-chat-development.onrender.com:443",
+    "extracted-results": [
+      "tls12"
+    ],
+    "ip": "216.24.57.16",
+    "timestamp": "2026-10-20T02:20:09.205948797Z",
+    "matcher-status": true
+  },
+  {
+    "template": "ssl/tls-version.yaml",
+    "template-url": "https://cloud.projectdiscovery.io/public/tls-version",
+    "template-id": "tls-version",
+    "template-path": "/home/runner/nuclei-templates/ssl/tls-version.yaml",
+    "info": {
+      "name": "TLS Version - Detect",
+      "author": [
+        "pdteam",
+        "pussycat0x"
+      ],
+      "tags": [
+        "ssl",
+        "tls",
+        "discovery"
+      ],
+      "description": "TLS version detection is a security process used to determine the version of the Transport Layer Security (TLS) protocol used by a computer or server.\nIt is important to detect the TLS version in order to ensure secure communication between two computers or servers.\n",
+      "severity": "info",
+      "metadata": {
+        "max-request": 4
+      }
+    },
+    "type": "ssl",
+    "host": "una-chat-development.onrender.com",
+    "port": "443",
+    "matched-at": "una-chat-development.onrender.com:443",
+    "extracted-results": [
+      "tls13"
+    ],
+    "ip": "216.24.57.16",
+    "timestamp": "2026-10-20T02:20:09.302889276Z",
+    "matcher-status": true
+  },
+  {
+    "template": "http/misconfiguration/http-missing-security-headers.yaml",
+    "template-url": "https://cloud.projectdiscovery.io/public/http-missing-security-headers",
+    "template-id": "http-missing-security-headers",
+    "template-path": "/home/runner/nuclei-templates/http/misconfiguration/http-missing-security-headers.yaml",
+    "info": {
+      "name": "HTTP Missing Security Headers",
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass",
+        "jub0bs",
+        "userdehghani",
+        "celbahraoui",
+        "safejulian"
+      ],
+      "tags": [
+        "misconfig",
+        "headers",
+        "generic",
+        "vuln"
+      ],
+      "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+      "severity": "info",
+      "metadata": {
+        "max-request": 1
+      },
+      "classification": {
+        "cve-id": null,
+        "cwe-id": [
+          "cwe-693"
+        ]
+      }
+    },
+    "matcher-name": "permissions-policy",
+    "type": "http",
+    "host": "una-chat-development.onrender.com",
+    "port": "443",
+    "scheme": "https",
+    "url": "https://una-chat-development.onrender.com",
+    "matched-at": "https://una-chat-development.onrender.com",
+    "request": "GET / HTTP/1.1\r\nHost: una-chat-development.onrender.com\r\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36\r\nAccept: */*\r\nAccept-Language: en\r\nAccept-Encoding: gzip\r\n\r\n",
+    "response": "HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\nAlt-Svc: h3=\":443\"; ma=86400\r\nCache-Control: public, max-age=0\r\nCf-Cache-Status: DYNAMIC\r\nCf-Ray: a4d48b5c096af42e-DFW\r\nConnection: keep-alive\r\nContent-Security-Policy: default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'none';img-src 'self' https: http: data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self';upgrade-insecure-requests;frame-src https://www.youtube-nocookie.com;connect-src 'self'\r\nContent-Type: text/html; charset=UTF-8\r\nCross-Origin-Opener-Policy: same-origin\r\nCross-Origin-Resource-Policy: same-origin\r\nDate: Tue, 20 Oct 2026 02:20:37 GMT\r\nEtag: W/\"271-1a15719d080\"\r\nLast-Modified: Tue, 20 Oct 2026 02:17:52 GMT\r\nOrigin-Agent-Cluster: ?1\r\nRatelimit: \"100-in-1min\"; r=64; t=29\r\nRatelimit-Policy: \"100-in-1min\"; q=100; w=60; pk=:N2EzZmYyODE1MzBh:\r\nReferrer-Policy: no-referrer\r\nRndr-Id: 345d5a1e-7bc2-496c\r\nServer: cloudflare\r\nStrict-Transport-Security: max-age=31536000; includeSubDomains\r\nVary: Accept-Encoding\r\nX-Content-Type-Options: nosniff\r\nX-Dns-Prefetch-Control: off\r\nX-Download-Options: noopen\r\nX-Frame-Options: SAMEORIGIN\r\nX-Permitted-Cross-Domain-Policies: none\r\nX-Render-Origin-Server: Render\r\nX-Xss-Protection: 0\r\n\r\n<!doctype html>\n<html lang=\"es\">\n  <head>\n    <meta charset=\"utf-8\">\n    <title>Chat Socket.IO UNA</title>\n    <link rel=\"stylesheet\" href=\"/chat.css\">\n  </head>\n  <body>\n    <ul id=\"messages\"></ul>\n    <form id=\"form\" action=\"\">\n      <input id=\"nombre\" autocomplete=\"off\" placeholder=\"Username\" maxlength=\"30\"/>\n      <input id=\"m\" autocomplete=\"off\" placeholder=\"Escriba un mensaje\" maxlength=\"500\" /><button>Send</button>\n    </form>\n    <!-- cliente socket.io servido por el propio servidor (sin CDN externo) -->\n    <script src=\"/socket.io/socket.io.js\"></script>\n    <script src=\"/chat.js\"></script>\n  </body>\n</html>\n",
+    "ip": "216.24.57.16",
+    "timestamp": "2026-10-20T02:20:37.19684288Z",
+    "curl-command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36' 'https://una-chat-development.onrender.com'",
+    "matcher-status": true
+  },
+  {
+    "template": "http/misconfiguration/http-missing-security-headers.yaml",
+    "template-url": "https://cloud.projectdiscovery.io/public/http-missing-security-headers",
+    "template-id": "http-missing-security-headers",
+    "template-path": "/home/runner/nuclei-templates/http/misconfiguration/http-missing-security-headers.yaml",
+    "info": {
+      "name": "HTTP Missing Security Headers",
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass",
+        "jub0bs",
+        "userdehghani",
+        "celbahraoui",
+        "safejulian"
+      ],
+      "tags": [
+        "misconfig",
+        "headers",
+        "generic",
+        "vuln"
+      ],
+      "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+      "severity": "info",
+      "metadata": {
+        "max-request": 1
+      },
+      "classification": {
+        "cve-id": null,
+        "cwe-id": [
+          "cwe-693"
+        ]
+      }
+    },
+    "matcher-name": "cross-origin-embedder-policy",
+    "type": "http",
+    "host": "una-chat-development.onrender.com",
+    "port": "443",
+    "scheme": "https",
+    "url": "https://una-chat-development.onrender.com",
+    "matched-at": "https://una-chat-development.onrender.com",
+    "request": "GET / HTTP/1.1\r\nHost: una-chat-development.onrender.com\r\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36\r\nAccept: */*\r\nAccept-Language: en\r\nAccept-Encoding: gzip\r\n\r\n",
+    "response": "HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\nAlt-Svc: h3=\":443\"; ma=86400\r\nCache-Control: public, max-age=0\r\nCf-Cache-Status: DYNAMIC\r\nCf-Ray: a4d48b5c096af42e-DFW\r\nConnection: keep-alive\r\nContent-Security-Policy: default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'none';img-src 'self' https: http: data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self';upgrade-insecure-requests;frame-src https://www.youtube-nocookie.com;connect-src 'self'\r\nContent-Type: text/html; charset=UTF-8\r\nCross-Origin-Opener-Policy: same-origin\r\nCross-Origin-Resource-Policy: same-origin\r\nDate: Tue, 20 Oct 2026 02:20:37 GMT\r\nEtag: W/\"271-1a15719d080\"\r\nLast-Modified: Tue, 20 Oct 2026 02:17:52 GMT\r\nOrigin-Agent-Cluster: ?1\r\nRatelimit: \"100-in-1min\"; r=64; t=29\r\nRatelimit-Policy: \"100-in-1min\"; q=100; w=60; pk=:N2EzZmYyODE1MzBh:\r\nReferrer-Policy: no-referrer\r\nRndr-Id: 345d5a1e-7bc2-496c\r\nServer: cloudflare\r\nStrict-Transport-Security: max-age=31536000; includeSubDomains\r\nVary: Accept-Encoding\r\nX-Content-Type-Options: nosniff\r\nX-Dns-Prefetch-Control: off\r\nX-Download-Options: noopen\r\nX-Frame-Options: SAMEORIGIN\r\nX-Permitted-Cross-Domain-Policies: none\r\nX-Render-Origin-Server: Render\r\nX-Xss-Protection: 0\r\n\r\n<!doctype html>\n<html lang=\"es\">\n  <head>\n    <meta charset=\"utf-8\">\n    <title>Chat Socket.IO UNA</title>\n    <link rel=\"stylesheet\" href=\"/chat.css\">\n  </head>\n  <body>\n    <ul id=\"messages\"></ul>\n    <form id=\"form\" action=\"\">\n      <input id=\"nombre\" autocomplete=\"off\" placeholder=\"Username\" maxlength=\"30\"/>\n      <input id=\"m\" autocomplete=\"off\" placeholder=\"Escriba un mensaje\" maxlength=\"500\" /><button>Send</button>\n    </form>\n    <!-- cliente socket.io servido por el propio servidor (sin CDN externo) -->\n    <script src=\"/socket.io/socket.io.js\"></script>\n    <script src=\"/chat.js\"></script>\n  </body>\n</html>\n",
+    "ip": "216.24.57.16",
+    "timestamp": "2026-10-20T02:20:37.197580126Z",
+    "curl-command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36' 'https://una-chat-development.onrender.com'",
+    "matcher-status": true
+  },
+  {
+    "template": "ssl/detect-ssl-issuer.yaml",
+    "template-url": "https://cloud.projectdiscovery.io/public/ssl-issuer",
+    "template-id": "ssl-issuer",
+    "template-path": "/home/runner/nuclei-templates/ssl/detect-ssl-issuer.yaml",
+    "info": {
+      "name": "Detect SSL Certificate Issuer",
+      "author": [
+        "lingtren"
+      ],
+      "tags": [
+        "ssl",
+        "tls",
+        "discovery"
+      ],
+      "description": "Extract the issuer's organization from the target's certificate. Issuers are entities which sign and distribute certificates.\n",
+      "severity": "info",
+      "metadata": {
+        "max-request": 1
+      }
+    },
+    "type": "ssl",
+    "host": "una-chat-development.onrender.com",
+    "port": "443",
+    "matched-at": "una-chat-development.onrender.com:443",
+    "extracted-results": [
+      "Google Trust Services"
+    ],
+    "ip": "216.24.57.16",
+    "timestamp": "2026-10-20T02:20:38.29733443Z",
+    "matcher-status": true
+  },
+  {
+    "template": "ssl/ssl-dns-names.yaml",
+    "template-url": "https://cloud.projectdiscovery.io/public/ssl-dns-names",
+    "template-id": "ssl-dns-names",
+    "template-path": "/home/runner/nuclei-templates/ssl/ssl-dns-names.yaml",
+    "info": {
+      "name": "SSL DNS Names",
+      "author": [
+        "pdteam"
+      ],
+      "tags": [
+        "ssl",
+        "tls",
+        "vuln"
+      ],
+      "description": "Extract the Subject Alternative Name (SAN) from the target's certificate. SAN facilitates the usage of additional hostnames with the same certificate.\n",
+      "severity": "info",
+      "metadata": {
+        "max-request": 1
+      }
+    },
+    "type": "ssl",
+    "host": "una-chat-development.onrender.com",
+    "port": "443",
+    "matched-at": "una-chat-development.onrender.com:443",
+    "extracted-results": [
+      "onrender.com",
+      "*.onrender.com"
+    ],
+    "ip": "216.24.57.16",
+    "timestamp": "2026-10-20T02:20:38.297684861Z",
+    "matcher-status": true
+  },
+  {
+    "template": "ssl/wildcard-tls.yaml",
+    "template-url": "https://cloud.projectdiscovery.io/public/wildcard-tls",
+    "template-id": "wildcard-tls",
+    "template-path": "/home/runner/nuclei-templates/ssl/wildcard-tls.yaml",
+    "info": {
+      "name": "Wildcard TLS Certificate",
+      "author": [
+        "lucky0x0d"
+      ],
+      "tags": [
+        "ssl",
+        "tls",
+        "wildcard",
+        "vuln"
+      ],
+      "description": "Checks a sites certificate to see if there are wildcard CN or SAN entries.\n",
+      "reference": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#carefully-consider-the-use-of-wildcard-certificates"
+      ],
+      "severity": "info",
+      "metadata": {
+        "max-request": 1
+      }
+    },
+    "type": "ssl",
+    "host": "una-chat-development.onrender.com",
+    "port": "443",
+    "matched-at": "una-chat-development.onrender.com:443",
+    "extracted-results": [
+      " SAN: [onrender.com *.onrender.com]",
+      "CN: onrender.com"
+    ],
+    "ip": "216.24.57.16",
+    "timestamp": "2026-10-20T02:20:38.297873741Z",
+    "matcher-status": true
+  }
+]

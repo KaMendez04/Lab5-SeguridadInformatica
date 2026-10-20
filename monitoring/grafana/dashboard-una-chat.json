@@ -1,0 +1,101 @@
+{
+  "uid": "una-chat-seguridad",
+  "title": "UNA-chat - Trafico y Seguridad",
+  "tags": ["una-chat", "devsecops"],
+  "timezone": "browser",
+  "refresh": "10s",
+  "time": { "from": "now-30m", "to": "now" },
+  "schemaVersion": 39,
+  "templating": {
+    "list": [
+      {
+        "name": "env",
+        "label": "Ambiente",
+        "type": "query",
+        "datasource": { "type": "prometheus", "uid": "grafanacloud-prom" },
+        "query": { "query": "label_values(una_chat_http_requests_total{job=\"una-chat\"}, deployment_environment)", "refId": "env" },
+        "includeAll": true,
+        "multi": true,
+        "current": { "text": "All", "value": "$__all" },
+        "refresh": 2
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1, "type": "stat", "title": "Requests / min",
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 5 },
+      "datasource": { "type": "prometheus", "uid": "grafanacloud-prom" },
+      "targets": [{ "refId": "A", "expr": "sum(rate(una_chat_http_requests_total{job=\"una-chat\", deployment_environment=~\"$env\"}[1m])) * 60" }],
+      "fieldConfig": { "defaults": { "unit": "short", "decimals": 0, "thresholds": { "mode": "absolute", "steps": [ { "color": "green", "value": null }, { "color": "orange", "value": 150 }, { "color": "red", "value": 300 } ] } }, "overrides": [] },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background", "graphMode": "area" }
+    },
+    {
+      "id": 2, "type": "stat", "title": "Respuestas 4xx / min (incluye 429)",
+      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 5 },
+      "datasource": { "type": "prometheus", "uid": "grafanacloud-prom" },
+      "targets": [{ "refId": "A", "expr": "sum(rate(una_chat_http_requests_total{job=\"una-chat\", deployment_environment=~\"$env\", status=~\"4..\"}[1m])) * 60 or vector(0)" }],
+      "fieldConfig": { "defaults": { "unit": "short", "decimals": 0, "thresholds": { "mode": "absolute", "steps": [ { "color": "green", "value": null }, { "color": "orange", "value": 20 }, { "color": "red", "value": 50 } ] } }, "overrides": [] },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background", "graphMode": "area" }
+    },
+    {
+      "id": 3, "type": "stat", "title": "Bloqueos por rate limit (5 min)",
+      "gridPos": { "x": 12, "y": 0, "w": 6, "h": 5 },
+      "datasource": { "type": "prometheus", "uid": "grafanacloud-prom" },
+      "targets": [{ "refId": "A", "expr": "sum(increase(una_chat_rate_limited_total{job=\"una-chat\", deployment_environment=~\"$env\"}[5m])) or vector(0)" }],
+      "fieldConfig": { "defaults": { "unit": "short", "decimals": 0, "thresholds": { "mode": "absolute", "steps": [ { "color": "green", "value": null }, { "color": "red", "value": 1 } ] } }, "overrides": [] },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background", "graphMode": "area" }
+    },
+    {
+      "id": 4, "type": "stat", "title": "Conexiones socket activas",
+      "gridPos": { "x": 18, "y": 0, "w": 6, "h": 5 },
+      "datasource": { "type": "prometheus", "uid": "grafanacloud-prom" },
+      "targets": [{ "refId": "A", "expr": "sum(una_chat_socket_connections{job=\"una-chat\", deployment_environment=~\"$env\"}) or vector(0)" }],
+      "fieldConfig": { "defaults": { "unit": "short", "decimals": 0, "thresholds": { "mode": "absolute", "steps": [ { "color": "blue", "value": null } ] } }, "overrides": [] },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "value", "graphMode": "area" }
+    },
+    {
+      "id": 5, "type": "timeseries", "title": "Trafico por codigo HTTP (req/min)",
+      "gridPos": { "x": 0, "y": 5, "w": 12, "h": 9 },
+      "datasource": { "type": "prometheus", "uid": "grafanacloud-prom" },
+      "targets": [{ "refId": "A", "expr": "sum by (status) (rate(una_chat_http_requests_total{job=\"una-chat\", deployment_environment=~\"$env\"}[1m])) * 60", "legendFormat": "{{status}}" }],
+      "fieldConfig": { "defaults": { "unit": "short", "custom": { "drawStyle": "line", "fillOpacity": 15, "stacking": { "mode": "normal" } } }, "overrides": [
+        { "matcher": { "id": "byName", "options": "429" }, "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "red" } }] },
+        { "matcher": { "id": "byName", "options": "404" }, "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "orange" } }] },
+        { "matcher": { "id": "byName", "options": "200" }, "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "green" } }] }
+      ] }
+    },
+    {
+      "id": 6, "type": "timeseries", "title": "Errores y bloqueos (por min)",
+      "gridPos": { "x": 12, "y": 5, "w": 12, "h": 9 },
+      "datasource": { "type": "prometheus", "uid": "grafanacloud-prom" },
+      "targets": [
+        { "refId": "A", "expr": "sum by (canal) (rate(una_chat_rate_limited_total{job=\"una-chat\", deployment_environment=~\"$env\"}[1m])) * 60", "legendFormat": "rate limit {{canal}}" },
+        { "refId": "B", "expr": "sum by (status) (rate(una_chat_http_requests_total{job=\"una-chat\", deployment_environment=~\"$env\", status=~\"4..|5..\"}[1m])) * 60", "legendFormat": "HTTP {{status}}" },
+        { "refId": "C", "expr": "sum by (origen) (rate(una_chat_errors_total{job=\"una-chat\", deployment_environment=~\"$env\"}[1m])) * 60", "legendFormat": "error app {{origen}}" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "short", "custom": { "drawStyle": "line", "fillOpacity": 10 } }, "overrides": [] }
+    },
+    {
+      "id": 7, "type": "timeseries", "title": "Mensajes de chat por tipo (por min)",
+      "gridPos": { "x": 0, "y": 14, "w": 12, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "grafanacloud-prom" },
+      "targets": [{ "refId": "A", "expr": "sum by (tipo) (rate(una_chat_messages_total{job=\"una-chat\", deployment_environment=~\"$env\"}[1m])) * 60", "legendFormat": "{{tipo}}" }],
+      "fieldConfig": { "defaults": { "unit": "short", "custom": { "drawStyle": "bars", "fillOpacity": 60 } }, "overrides": [] }
+    },
+    {
+      "id": 8, "type": "timeseries", "title": "Conexiones socket activas",
+      "gridPos": { "x": 12, "y": 14, "w": 12, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "grafanacloud-prom" },
+      "targets": [{ "refId": "A", "expr": "sum(una_chat_socket_connections{job=\"una-chat\", deployment_environment=~\"$env\"})", "legendFormat": "conexiones" }],
+      "fieldConfig": { "defaults": { "unit": "short", "custom": { "drawStyle": "line", "fillOpacity": 20 } }, "overrides": [] }
+    },
+    {
+      "id": 9, "type": "logs", "title": "Logs de advertencias y errores (pino via OTLP)",
+      "gridPos": { "x": 0, "y": 22, "w": 24, "h": 9 },
+      "datasource": { "type": "loki", "uid": "grafanacloud-logs" },
+      "targets": [{ "refId": "A", "expr": "{service_name=\"una-chat\"} | severity_text=~\"warn|error\" or detected_level=~\"warn|error\"" }],
+      "options": { "showTime": true, "wrapLogMessage": true, "sortOrder": "Descending" }
+    }
+  ]
+}

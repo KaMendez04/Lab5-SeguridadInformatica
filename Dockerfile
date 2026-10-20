@@ -26,7 +26,7 @@ RUN apk upgrade --no-cache \
            /opt/yarn* /usr/local/bin/yarn /usr/local/bin/yarnpkg
 
 COPY --from=deps --chown=node:node /app/node_modules ./node_modules
-COPY --chown=node:node package.json server.js index.html ./
+COPY --chown=node:node package.json server.js instrumentation.js index.html ./
 COPY --chown=node:node libs ./libs
 COPY --chown=node:node public ./public
 
