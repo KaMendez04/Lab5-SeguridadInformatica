@@ -170,6 +170,16 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}:${{ github.sha }}
           build-args: APP_VERSION=${{ github.sha }}
 
+      - name: Smoke test (el contenedor arranca y responde /healthz)
+        run: |
+          docker run -d --name smoke -p 3000:3000 "$IMAGE_NAME:$GITHUB_SHA"
+          for i in $(seq 1 20); do
+            if curl -fsS http://localhost:3000/healthz; then docker rm -f smoke; exit 0; fi
+            sleep 1
+          done
+          docker logs smoke
+          exit 1
+
       - name: Trivy - reporte SARIF para GitHub Security
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
