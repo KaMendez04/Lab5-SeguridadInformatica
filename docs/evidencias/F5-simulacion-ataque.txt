@@ -1,0 +1,8 @@
+Running 180s test @ https://una-chat-development.onrender.com
+20 connections
+
+
+Resumen
+  Peticiones totales: 5020
+  Promedio req/s:     28.05
+  Codigos HTTP:       200: 193  404: 707  429: 4120
