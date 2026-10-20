@@ -14,6 +14,13 @@ var validation = require('./libs/unalib');
 var app = express(); // nosemgrep: javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage
 var http = require('http').Server(app);
 var port = process.env.PORT || 3000;
+var version = process.env.APP_VERSION || 'dev';
+
+// detras de un proxy (Render) la IP real viene en X-Forwarded-For; sin esto
+// el rate limit trataria a todos los clientes como una sola IP
+if (process.env.TRUST_PROXY) {
+  app.set('trust proxy', Number(process.env.TRUST_PROXY));
+}
 
 // solo se aceptan conexiones socket desde el mismo host que sirve la pagina
 function origenPermitido(req, callback) {
@@ -48,6 +55,11 @@ app.use(helmet({
     }
   }
 }));
+
+// estado y version desplegada (lo usa el pipeline para esperar el deploy)
+app.get('/healthz', function(req, res){
+  res.json({ status: 'ok', version: version });
+});
 
 // limita las peticiones HTTP por IP (mitiga abuso / DoS)
 app.use(rateLimit({
