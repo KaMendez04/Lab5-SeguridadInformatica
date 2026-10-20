@@ -1,0 +1,63 @@
+{
+  "title": "seguridad",
+  "folderUid": "una-chat",
+  "interval": 30,
+  "rules": [
+    {
+      "uid": "una-chat-pico-trafico",
+      "title": "Pico de trafico",
+      "condition": "C",
+      "for": "1m",
+      "noDataState": "OK",
+      "execErrState": "Error",
+      "labels": { "equipo": "una-chat", "severidad": "warning" },
+      "annotations": {
+        "summary": "Pico de trafico en UNA-chat: {{ printf \"%.0f\" $values.A.Value }} requests/min",
+        "description": "El trafico supera 300 requests/min durante al menos 1 minuto. Revisar si es uso legitimo o el inicio de un ataque.",
+        "__dashboardUid__": "una-chat-seguridad",
+        "__panelId__": "1"
+      },
+      "data": [
+        {
+          "refId": "A",
+          "datasourceUid": "grafanacloud-prom",
+          "relativeTimeRange": { "from": 300, "to": 0 },
+          "model": { "refId": "A", "instant": true, "expr": "sum(rate(una_chat_http_requests_total{job=\"una-chat\"}[1m])) * 60" }
+        },
+        {
+          "refId": "C",
+          "datasourceUid": "__expr__",
+          "model": { "refId": "C", "type": "threshold", "expression": "A", "conditions": [ { "evaluator": { "type": "gt", "params": [300] } } ] }
+        }
+      ]
+    },
+    {
+      "uid": "una-chat-posible-ataque",
+      "title": "Posible ataque (4xx / rate limit)",
+      "condition": "C",
+      "for": "30s",
+      "noDataState": "OK",
+      "execErrState": "Error",
+      "labels": { "equipo": "una-chat", "severidad": "critical" },
+      "annotations": {
+        "summary": "Posible ataque a UNA-chat: {{ printf \"%.0f\" $values.A.Value }} respuestas 4xx en 2 minutos",
+        "description": "Muchas respuestas 4xx (429 por rate limit, 404 por sondeo de rutas como /.env o /admin). Patron tipico de fuerza bruta, scraping o escaneo automatizado.",
+        "__dashboardUid__": "una-chat-seguridad",
+        "__panelId__": "2"
+      },
+      "data": [
+        {
+          "refId": "A",
+          "datasourceUid": "grafanacloud-prom",
+          "relativeTimeRange": { "from": 300, "to": 0 },
+          "model": { "refId": "A", "instant": true, "expr": "sum(increase(una_chat_http_requests_total{job=\"una-chat\", status=~\"4..\"}[2m])) or vector(0)" }
+        },
+        {
+          "refId": "C",
+          "datasourceUid": "__expr__",
+          "model": { "refId": "C", "type": "threshold", "expression": "A", "conditions": [ { "evaluator": { "type": "gt", "params": [100] } } ] }
+        }
+      ]
+    }
+  ]
+}
