@@ -132,6 +132,7 @@ jobs:
           load: true
           push: false
           tags: ${{ env.IMAGE_NAME }}:${{ github.sha }}
+          build-args: APP_VERSION=${{ github.sha }}
 
       - name: Trivy - reporte SARIF para GitHub Security
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
@@ -172,3 +173,114 @@ jobs:
           docker tag "$IMAGE_NAME:$GITHUB_SHA" "$IMAGE_NAME:development"
           docker push "$IMAGE_NAME:development"
           docker push "$IMAGE_NAME:$GITHUB_SHA"
+
+  # 5. Despliegue continuo en Render (solo push a development)
+  deploy:
+    name: deploy
+    needs: container
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/development' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+      url: ${{ vars.APP_URL }}
+    steps:
+      - name: Disparar el Deploy Hook de Render
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: curl -fsS -X POST "$RENDER_DEPLOY_HOOK" -o /dev/null
+
+      - name: Esperar a que Render sirva este commit
+        env:
+          APP_URL: ${{ vars.APP_URL }}
+        run: |
+          for i in $(seq 1 60); do
+            v=$(curl -fsS --max-time 15 "$APP_URL/healthz" | jq -r .version || true)
+            echo "intento $i: version desplegada=${v:-sin respuesta}"
+            if [ "$v" = "$GITHUB_SHA" ]; then echo "Deploy listo: $APP_URL"; exit 0; fi
+            sleep 10
+          done
+          echo "::error::Render no sirvio la version $GITHUB_SHA en 10 minutos"
+          exit 1
+
+  # 6. DAST con Nuclei contra la app desplegada
+  dast:
+    name: dast
+    needs: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      APP_URL: ${{ vars.APP_URL }}
+    steps:
+      - name: Instalar Nuclei
+        uses: projectdiscovery/nuclei-action@32a91c0da7be14c07b0ade6c14fa0f6e78d97c9c # v3.1.0
+        with:
+          version: v3.11.1
+          install-only: true
+
+      # -rl 1: 1 peticion/seg para no chocar con el rate limit de la app (100/min)
+      - name: Nuclei - cabeceras, CORS, SSL, CSP y cookies (todas las severidades)
+        run: |
+          nuclei -u "$APP_URL" -tags headers,cors,ssl,csp,cookie \
+            -rl 1 -c 5 -nc -stats -si 60 \
+            -je nuclei-headers.json -me nuclei-report
+
+      - name: Nuclei - exposiciones y malas configuraciones HIGH/CRITICAL
+        run: |
+          nuclei -u "$APP_URL" -tags exposure,misconfig -s high,critical \
+            -etags intrusive,dos,fuzz,wordpress,wp-plugin,cve \
+            -rl 1 -c 5 -nc -stats -si 60 \
+            -je nuclei-exposures.json -me nuclei-report
+
+      - name: Resumen y quality gate (falla con HIGH/CRITICAL)
+        run: |
+          for f in nuclei-headers.json nuclei-exposures.json; do [ -s "$f" ] || echo '[]' > "$f"; done
+          jq -s 'add' nuclei-headers.json nuclei-exposures.json > nuclei-results.json
+          {
+            echo "## Nuclei DAST contra $APP_URL"
+            echo "| Severidad | Plantilla | URL |"
+            echo "|---|---|---|"
+            jq -r '.[] | "| \(.info.severity) | \(.["template-id"]) | \(.["matched-at"]) |"' nuclei-results.json
+          } >> "$GITHUB_STEP_SUMMARY"
+          altos=$(jq '[.[] | select(.info.severity=="high" or .info.severity=="critical")] | length' nuclei-results.json)
+          echo "Hallazgos HIGH/CRITICAL: $altos"
+          [ "$altos" -eq 0 ]
+
+      - name: Subir reporte de Nuclei
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: nuclei-report
+          path: |
+            nuclei-results.json
+            nuclei-report/
+          if-no-files-found: warn
+
+  # 7. Pruebas E2E con Playwright: contra Render en push a development,
+  #    contra un servidor local en los pull requests
+  e2e:
+    name: e2e
+    needs: [container, deploy]
+    if: ${{ !cancelled() && needs.container.result == 'success' && (needs.deploy.result == 'success' || needs.deploy.result == 'skipped') }}
+    runs-on: ubuntu-latest
+    env:
+      CI: 'true'
+      APP_URL: ${{ needs.deploy.result == 'success' && vars.APP_URL || '' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Playwright
+        run: |
+          echo "Probando contra: ${APP_URL:-servidor local}"
+          npx playwright test
+      - name: Subir reporte HTML de Playwright
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-report
+          path: playwright-report/
+          if-no-files-found: warn
