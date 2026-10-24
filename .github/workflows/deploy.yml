@@ -1,0 +1,75 @@
+# Workflow del laboratorio: prueba el chat y, solo si todas las pruebas pasan,
+# le pide a Render que despliegue el commit que se acaba de subir a master.
+name: Desplegar chat en Render
+
+# Disparador: cada push a la rama master ejecuta este workflow.
+on:
+  push:
+    branches: [master]
+
+# Permisos minimos del token de GitHub: solo leer el codigo del repositorio.
+permissions:
+  contents: read
+
+jobs:
+  # Job 1: pruebas automaticas. Si alguna falla, el job queda en rojo.
+  test:
+    runs-on: ubuntu-latest
+    env:
+      CI: 'true'   # Playwright reintenta una vez y no reutiliza servidores viejos
+    steps:
+      # Descarga el codigo del commit que disparo el workflow.
+      # Las actions se fijan por SHA (no por tag) para que no puedan cambiar.
+      - name: Descargar el codigo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Instala Node 24 y guarda en cache las dependencias de npm entre ejecuciones.
+      - name: Configurar Node 24
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+          cache: npm
+
+      # Instala exactamente las versiones de package-lock.json.
+      - name: Instalar dependencias
+        run: npm ci
+
+      # Pruebas unitarias BDD con Mocha (carpeta test/).
+      - name: Pruebas unitarias (Mocha)
+        run: npm test
+
+      # Playwright necesita un navegador real: se instala solo Chromium.
+      - name: Instalar Chromium para Playwright
+        run: npx playwright install --with-deps chromium
+
+      # Pruebas de extremo a extremo (tests/e2e/): levantan el servidor local,
+      # usan el chat en el navegador y verifican que los ataques XSS no se ejecutan.
+      - name: Pruebas E2E (Playwright)
+        run: npx playwright test
+
+      # Guarda el reporte HTML de Playwright, tambien cuando una prueba falla.
+      - name: Subir reporte de Playwright
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-report
+          path: playwright-report/
+          if-no-files-found: warn
+
+  # Job 2: despliegue. needs: test hace que solo corra si el job test termino
+  # bien; si una prueba falla, este job se omite y Render no recibe la solicitud.
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      # Llama al Deploy Hook de Render indicando el commit a publicar (GITHUB_SHA).
+      # La URL viene del secreto del repositorio: nunca se escribe en el codigo
+      # y GitHub la oculta en los logs. --fail hace fallar el paso si Render
+      # responde con error.
+      - name: Solicitar despliegue en Render
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          curl --fail --silent --show-error --output /dev/null \
+            --get --data-urlencode "ref=${GITHUB_SHA}" \
+            "$RENDER_DEPLOY_HOOK_URL"
