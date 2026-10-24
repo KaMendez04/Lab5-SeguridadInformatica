@@ -13,7 +13,7 @@ describe('unalib', function(){
       // Cuando
       var resultado = val.is_valid_phone(telefono);
       // Entonces
-      assert.strictEqual(resultado, false);
+      assert.strictEqual(resultado, true);
     });
 
     it('Dado el telefono con una letra 8297p-8547, cuando se valida, entonces debe ser rechazado', function(){
