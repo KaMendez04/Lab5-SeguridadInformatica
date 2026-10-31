@@ -1,4 +1,5 @@
-// OpenTelemetry primero: debe instrumentar http/express antes de que se carguen
+// Sentry y OpenTelemetry primero: deben instrumentar http/express antes de que se carguen
+var Sentry = require('./instrument');
 require('./instrumentation');
 
 // npm install para descargar los paquetes...
@@ -86,6 +87,11 @@ app.get('/healthz', function(req, res){
   res.json({ status: 'ok', version: version });
 });
 
+// disponibilidad para Cronitor: no depende de nada externo
+app.get('/health', function(req, res){
+  res.json({ status: 'ok' });
+});
+
 // limita las peticiones HTTP por IP (mitiga abuso / DoS)
 app.use(rateLimit({
   windowMs: 60 * 1000,
@@ -118,6 +124,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function(req, res){
   res.sendFile(path.join(__dirname, 'index.html'));
 });
+
+// TEMPORAL (lab de monitoreo): genera un error controlado para verificar Sentry.
+// Solo existe con ENABLE_SENTRY_TEST=true; se elimina despues de la prueba.
+if (process.env.ENABLE_SENTRY_TEST === 'true') {
+  app.get('/debug-sentry', function(){
+    throw new Error('Prueba Sentry - lab monitoreo');
+  });
+}
+
+// envia a Sentry los errores 5xx de las rutas (despues de todas las rutas)
+Sentry.setupExpressErrorHandler(app);
 
 // errores no controlados: se registran sin filtrar detalles al cliente
 app.use(function(err, req, res, next){ // eslint-disable-line no-unused-vars
@@ -161,6 +178,7 @@ io.on('connection', function(socket){
       // volvemos a emitir el mensaje ya sanitizado
       io.emit('Evento-Mensaje-Server', msg);
     } catch (err) {
+      Sentry.captureException(err);
       metrics.error('socket');
       logger.error({ err: err }, 'error procesando mensaje');
     }

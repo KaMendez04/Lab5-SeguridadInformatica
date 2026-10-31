@@ -44,6 +44,6 @@ module.exports = [
     }
   },
   {
-    ignores: ['node_modules/**', 'sbom.json', 'playwright-report/**', 'test-results/**']
+    ignores: ['node_modules/**', 'sbom.json', 'playwright-report/**', 'test-results/**', '.claude/**']
   }
 ];
