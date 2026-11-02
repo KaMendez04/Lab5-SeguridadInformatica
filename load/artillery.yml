@@ -1,0 +1,30 @@
+# Prueba de carga del lab de monitoreo: 5 usuarios virtuales por segundo durante
+# 60 s (300 en total) contra el CONTENEDOR LOCAL. Nunca apuntar a Render.
+#
+# UNA Chat no tiene un endpoint HTTP de mensajes: el navegador los envia por
+# Socket.IO con el evento "Evento-Mensaje-Server". Por eso se usa el motor
+# socketio de Artillery, que reproduce exactamente ese camino. No hay
+# autenticacion, asi que no se necesita ningun token.
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 60
+      arrivalRate: 5
+      name: "5 mensajes por segundo durante 60 s"
+  socketio:
+    transports: ["websocket"]
+    # identifica esta prueba en los logs (test_run) y en las trazas (test.run)
+    extraHeaders:
+      x-test-run: "carga-1"
+
+scenarios:
+  - name: "Enviar un mensaje de chat"
+    engine: socketio
+    flow:
+      # una sola solicitud por usuario virtual; se espera la difusion del
+      # servidor en el mismo canal para medir el tiempo de respuesta
+      - emit:
+          channel: "Evento-Mensaje-Server"
+          data: '{"nombre":"artillery","mensaje":"Hola, prueba de carga","color":"#336699"}'
+          response:
+            channel: "Evento-Mensaje-Server"
