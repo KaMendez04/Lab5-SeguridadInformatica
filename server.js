@@ -1,6 +1,8 @@
-// Sentry y OpenTelemetry primero: deben instrumentar http/express antes de que se carguen
+// OpenTelemetry (que tambien carga el .env local) y Sentry primero: deben
+// instrumentar http/express antes de que se carguen
+require('./otel');
 var Sentry = require('./instrument');
-require('./instrumentation');
+var otelApi = require('@opentelemetry/api');
 
 // npm install para descargar los paquetes...
 
@@ -18,6 +20,7 @@ var metrics = require('./libs/metrics');
 // websockets (Cross-Site WebSocket Hijacking) se mitiga validando el Origin.
 var app = express(); // nosemgrep: javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage
 var http = require('http').Server(app);
+var tracer = otelApi.trace.getTracer('una-chat');
 var port = process.env.PORT || 3000;
 var version = process.env.APP_VERSION || 'dev';
 
@@ -49,9 +52,11 @@ var io = require('socket.io')(http, {
 
 // metrica por peticion; la ruta se agrupa para no crear una serie por URL
 app.use(function(req, res, next){
+  var inicio = process.hrtime.bigint();
   res.on('finish', function(){
     var route = req.route ? req.route.path : (res.statusCode === 404 ? 'no-encontrada' : 'estatico');
-    metrics.request(req.method, route, res.statusCode);
+    var duracionMs = Number(process.hrtime.bigint() - inicio) / 1e6;
+    metrics.request(req.method, route, res.statusCode, duracionMs);
     if (res.statusCode >= 400) {
       logger.warn({ method: req.method, url: req.originalUrl, status: res.statusCode, ip: req.ip }, 'respuesta de error');
     }
@@ -135,6 +140,47 @@ app.use(function(err, req, res, next){ // eslint-disable-line no-unused-vars
   res.status(500).send('Error interno');
 });
 
+// Procesa un mensaje dentro del span "chat.process_message" (con hijos para
+// validar y difundir). Los atributos no incluyen el texto del mensaje.
+function procesarMensaje(socket, msg) {
+  var inicio = process.hrtime.bigint();
+  tracer.startActiveSpan('chat.process_message', {
+    attributes: { 'messaging.system': 'socket.io', 'chat.event': 'Evento-Mensaje-Server' }
+  }, function(span){
+    var resultado = 'ok';
+    try {
+      var limpio = tracer.startActiveSpan('chat.validate', function(hijo){
+        try {
+          return validation.validateMessage(msg);
+        } finally {
+          hijo.end();
+        }
+      });
+      var datos = JSON.parse(limpio);
+      span.setAttributes({ 'chat.tipo': datos.tipo, 'chat.longitud': datos.mensaje.length });
+
+      tracer.startActiveSpan('chat.broadcast', function(hijo){
+        // volvemos a emitir el mensaje ya sanitizado
+        io.emit('Evento-Mensaje-Server', limpio);
+        hijo.end();
+      });
+      metrics.message(datos.tipo);
+      logger.info({ tipo: datos.tipo, socket: socket.id }, 'mensaje procesado');
+    } catch (err) {
+      resultado = 'error';
+      span.recordException(err);
+      span.setStatus({ code: otelApi.SpanStatusCode.ERROR, message: err.message });
+      Sentry.captureException(err);
+      metrics.error('socket');
+      logger.error({ err: err, socket: socket.id }, 'error procesando mensaje');
+      socket.emit('Evento-Error-Server', 'No se pudo procesar el mensaje');
+    } finally {
+      metrics.messageProcessed(resultado, Number(process.hrtime.bigint() - inicio) / 1e6);
+      span.end();
+    }
+  });
+}
+
 // maximo de mensajes por socket en una ventana de tiempo
 var MAX_MENSAJES = 20;
 var VENTANA_MS = 10 * 1000;
@@ -164,16 +210,7 @@ io.on('connection', function(socket){
       return; // se descarta el mensaje por exceso de tasa
     }
 
-    try {
-      msg = validation.validateMessage(msg);
-      metrics.message(JSON.parse(msg).tipo);
-      // volvemos a emitir el mensaje ya sanitizado
-      io.emit('Evento-Mensaje-Server', msg);
-    } catch (err) {
-      Sentry.captureException(err);
-      metrics.error('socket');
-      logger.error({ err: err }, 'error procesando mensaje');
-    }
+    procesarMensaje(socket, msg);
   });
 });
 

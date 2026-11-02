@@ -9,12 +9,29 @@ client.collectDefaultMetrics({ register: registry, prefix: 'una_chat_' });
 
 var meter = otel.metrics.getMeter('una-chat');
 
+// limites de los histogramas de duracion, en milisegundos
+var BUCKETS_MS = [5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000];
+
 // en OTel los contadores no llevan _total: Prometheus/Mimir lo agrega al importar
 var prom = {
   requests: new client.Counter({
     name: 'una_chat_http_requests_total',
     help: 'Peticiones HTTP atendidas',
     labelNames: ['method', 'route', 'status'],
+    registers: [registry]
+  }),
+  requestDuration: new client.Histogram({
+    name: 'una_chat_http_request_duration_ms',
+    help: 'Duracion de las peticiones HTTP (ms)',
+    labelNames: ['method', 'route', 'status'],
+    buckets: BUCKETS_MS,
+    registers: [registry]
+  }),
+  messageDuration: new client.Histogram({
+    name: 'una_chat_message_duration_ms',
+    help: 'Duracion del procesamiento de un mensaje de chat (ms)',
+    labelNames: ['resultado'],
+    buckets: BUCKETS_MS,
     registers: [registry]
   }),
   messages: new client.Counter({
@@ -44,6 +61,15 @@ var prom = {
 
 var o = {
   requests: meter.createCounter('una_chat_http_requests', { description: 'Peticiones HTTP atendidas' }),
+  // sin "unit" para que Mimir conserve el nombre (con unit agregaria _milliseconds)
+  requestDuration: meter.createHistogram('una_chat_http_request_duration_ms', {
+    description: 'Duracion de las peticiones HTTP (ms)',
+    advice: { explicitBucketBoundaries: BUCKETS_MS }
+  }),
+  messageDuration: meter.createHistogram('una_chat_message_duration_ms', {
+    description: 'Duracion del procesamiento de un mensaje de chat (ms)',
+    advice: { explicitBucketBoundaries: BUCKETS_MS }
+  }),
   messages: meter.createCounter('una_chat_messages', { description: 'Mensajes de chat difundidos' }),
   connections: meter.createUpDownCounter('una_chat_socket_connections', { description: 'Conexiones socket activas' }),
   errors: meter.createCounter('una_chat_errors', { description: 'Errores de la aplicacion' }),
@@ -53,10 +79,18 @@ var o = {
 module.exports = {
   registry: registry,
 
-  request: function (method, route, status) {
+  request: function (method, route, status, durationMs) {
     var labels = { method: method, route: route, status: String(status) };
     prom.requests.inc(labels);
     o.requests.add(1, labels);
+    prom.requestDuration.observe(labels, durationMs);
+    o.requestDuration.record(durationMs, labels);
+  },
+
+  // resultado: 'ok' o 'error'
+  messageProcessed: function (resultado, durationMs) {
+    prom.messageDuration.observe({ resultado: resultado }, durationMs);
+    o.messageDuration.record(durationMs, { resultado: resultado });
   },
 
   message: function (tipo) {

@@ -102,7 +102,7 @@ node scripts/simular-ataque.js ataque https://una-chat-development.onrender.com 
 | Despliegue | Despliegue continuo verificado por versión | Render + `/healthz` | job `deploy` |
 | Verificación dinámica | DAST contra la app desplegada | Nuclei | job `dast` |
 | Verificación dinámica | E2E: flujos y XSS en navegador real | Playwright | `tests/e2e/`, job `e2e` |
-| Operación | Métricas, logs JSON y trazas | prom-client, pino, OpenTelemetry → Grafana Cloud | `libs/metrics.js`, `instrumentation.js` |
+| Operación | Métricas, logs JSON y trazas | prom-client, pino, OpenTelemetry → Grafana Cloud | `libs/metrics.js`, `otel.js` |
 | Operación | Dashboard y alertas (pico de tráfico, posible ataque) | Grafana | `monitoring/grafana/` |
 | Transversal | Gestión de secretos sin credenciales en GitHub | Azure Key Vault + OIDC | jobs `sast`, `container`, `deploy` |
 | Transversal | Ramas protegidas, PR obligatorio, checks requeridos | GitHub rulesets | `main`, `development` |
@@ -113,7 +113,8 @@ Las evidencias de cada control (antes y después) están en [`docs/evidencias/`]
 
 ```
 server.js              Express + Socket.IO, cabeceras, rate limit, métricas
-instrumentation.js     OpenTelemetry (se carga antes que todo)
+otel.js                OpenTelemetry y carga del .env local (se carga antes que todo)
+instrument.js          Sentry (errores y trazas)
 libs/unalib.js         validación y sanitización de mensajes
 libs/metrics.js        métricas prom-client + OTel
 libs/logger.js         logs JSON (pino)

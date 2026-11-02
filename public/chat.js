@@ -83,4 +83,14 @@
     lista.appendChild(li);
     window.scrollTo(0, document.body.scrollHeight);
   });
+
+  // aviso al remitente cuando el servidor no pudo procesar su mensaje
+  socket.on('Evento-Error-Server', function (texto) {
+    var li = document.createElement('li');
+    var aviso = document.createElement('i');
+    aviso.textContent = String(texto);
+    li.appendChild(aviso);
+    lista.appendChild(li);
+    window.scrollTo(0, document.body.scrollHeight);
+  });
 })();
