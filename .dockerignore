@@ -3,6 +3,7 @@ node_modules
 npm-debug.log
 .git
 .github
+.claude
 .husky
 .semgrep.yml
 .env

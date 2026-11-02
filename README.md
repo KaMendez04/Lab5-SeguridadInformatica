@@ -58,21 +58,29 @@ npx playwright test       # E2E (levanta el servidor solo)
 node scripts/owasp-checker.js --all
 ```
 
-Con Docker:
+Telemetría opcional en un `.env` local (ignorado por git; ver `.env.example`). Sin estas variables la app corre igual, sin enviar nada:
 
 ```bash
-docker build -t una-chat .
-docker run -p 3000:3000 una-chat
-```
-
-Telemetría opcional (sin estas variables la app corre igual, sin enviar nada):
-
-```bash
-OTEL_SERVICE_NAME=una-chat
-OTEL_EXPORTER_OTLP_ENDPOINT=https://otlp-gateway-<region>.grafana.net/otlp
 OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
-OTEL_EXPORTER_OTLP_HEADERS="Authorization=Basic <token>"   # nunca en el repo
+OTEL_EXPORTER_OTLP_ENDPOINT=https://otlp-gateway-<region>.grafana.net/otlp
+OTEL_EXPORTER_OTLP_HEADERS=Authorization=Basic%20<base64>   # sin comillas; nunca en el repo
+OTEL_SERVICE_NAME=una-chat
+OTEL_RESOURCE_ATTRIBUTES=deployment.environment=local
+TEST_RUN=docker-1                                           # opcional: identifica una prueba en logs y trazas
 ```
+
+## Docker
+
+El contenedor recibe las variables solo desde `.env` (`env_file` en `docker-compose.yml`); la imagen no contiene secretos.
+
+```bash
+docker compose up --build -d     # construir e iniciar en segundo plano
+docker ps                        # ver el contenedor y el puerto 0.0.0.0:3000->3000
+docker compose logs -f           # seguir los logs (Ctrl+C para salir)
+docker compose down              # detener y eliminar el contenedor
+```
+
+La app queda en http://localhost:3000. Dentro del contenedor `localhost` no es tu equipo: la telemetría sale directo por internet al gateway de Grafana Cloud.
 
 Simulación de tráfico para la demo de alertas:
 

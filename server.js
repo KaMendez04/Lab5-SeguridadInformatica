@@ -50,15 +50,27 @@ var io = require('socket.io')(http, {
   allowRequest: origenPermitido
 });
 
+// identificador de una prueba (lab de monitoreo) para filtrar logs y trazas:
+// header x-test-run o variable TEST_RUN. Solo [A-Za-z0-9_.-], hasta 40 caracteres.
+function identificadorPrueba(headers) {
+  var valor = (headers && headers['x-test-run']) || process.env.TEST_RUN || '';
+  return /^[\w.-]{1,40}$/.test(valor) ? valor : '';
+}
+
 // metrica por peticion; la ruta se agrupa para no crear una serie por URL
 app.use(function(req, res, next){
   var inicio = process.hrtime.bigint();
+  var testRun = identificadorPrueba(req.headers);
+  var spanActivo = otelApi.trace.getActiveSpan();
+  if (testRun && spanActivo) {
+    spanActivo.setAttribute('test.run', testRun);
+  }
   res.on('finish', function(){
     var route = req.route ? req.route.path : (res.statusCode === 404 ? 'no-encontrada' : 'estatico');
     var duracionMs = Number(process.hrtime.bigint() - inicio) / 1e6;
     metrics.request(req.method, route, res.statusCode, duracionMs);
     if (res.statusCode >= 400) {
-      logger.warn({ method: req.method, url: req.originalUrl, status: res.statusCode, ip: req.ip }, 'respuesta de error');
+      logger.warn({ method: req.method, url: req.originalUrl, status: res.statusCode, ip: req.ip, test_run: testRun || undefined }, 'respuesta de error');
     }
   });
   next();
@@ -144,9 +156,12 @@ app.use(function(err, req, res, next){ // eslint-disable-line no-unused-vars
 // validar y difundir). Los atributos no incluyen el texto del mensaje.
 function procesarMensaje(socket, msg) {
   var inicio = process.hrtime.bigint();
-  tracer.startActiveSpan('chat.process_message', {
-    attributes: { 'messaging.system': 'socket.io', 'chat.event': 'Evento-Mensaje-Server' }
-  }, function(span){
+  var testRun = identificadorPrueba(socket.handshake.headers);
+  var atributos = { 'messaging.system': 'socket.io', 'chat.event': 'Evento-Mensaje-Server' };
+  if (testRun) {
+    atributos['test.run'] = testRun;
+  }
+  tracer.startActiveSpan('chat.process_message', { attributes: atributos }, function(span){
     var resultado = 'ok';
     try {
       var limpio = tracer.startActiveSpan('chat.validate', function(hijo){
@@ -165,14 +180,14 @@ function procesarMensaje(socket, msg) {
         hijo.end();
       });
       metrics.message(datos.tipo);
-      logger.info({ tipo: datos.tipo, socket: socket.id }, 'mensaje procesado');
+      logger.info({ tipo: datos.tipo, socket: socket.id, test_run: testRun || undefined }, 'mensaje procesado');
     } catch (err) {
       resultado = 'error';
       span.recordException(err);
       span.setStatus({ code: otelApi.SpanStatusCode.ERROR, message: err.message });
       Sentry.captureException(err);
       metrics.error('socket');
-      logger.error({ err: err, socket: socket.id }, 'error procesando mensaje');
+      logger.error({ err: err, socket: socket.id, test_run: testRun || undefined }, 'error procesando mensaje');
       socket.emit('Evento-Error-Server', 'No se pudo procesar el mensaje');
     } finally {
       metrics.messageProcessed(resultado, Number(process.hrtime.bigint() - inicio) / 1e6);

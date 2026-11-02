@@ -1,0 +1,10 @@
+# UNA-chat en un contenedor local. Las variables (OTEL_*, SENTRY_*, TEST_RUN)
+# entran solo desde .env: nada de secretos en la imagen, el Dockerfile ni este archivo.
+services:
+  una-chat:
+    build: .
+    image: una-chat:local
+    ports:
+      - "3000:3000"
+    env_file: .env
+    restart: unless-stopped
