@@ -125,14 +125,6 @@ app.get('/', function(req, res){
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// TEMPORAL (lab de monitoreo): genera un error controlado para verificar Sentry.
-// Solo existe con ENABLE_SENTRY_TEST=true; se elimina despues de la prueba.
-if (process.env.ENABLE_SENTRY_TEST === 'true') {
-  app.get('/debug-sentry', function(){
-    throw new Error('Prueba Sentry - lab monitoreo');
-  });
-}
-
 // envia a Sentry los errores 5xx de las rutas (despues de todas las rutas)
 Sentry.setupExpressErrorHandler(app);
 
